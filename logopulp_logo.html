@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Apply Comic Sans MS font */
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
             color: #333;
@@ -19,7 +18,6 @@
             position: relative;
         }
 
-        /* Background container with blur */
         .background-container {
             position: fixed;
             top: 0;
@@ -34,7 +32,6 @@
             z-index: -1;
         }
 
-        /* Style for the "magic" title */
         .magic-title {
             background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
             -webkit-background-clip: text;
@@ -43,7 +40,6 @@
             color: #fff;
         }
 
-        /* Style for the icon next to the site name in the header */
         .header-logo-icon {
             display: inline-block;
             vertical-align: middle;
@@ -55,7 +51,6 @@
             object-fit: cover;
         }
 
-        /* Style for the icon next to the site name (if used in text) */
         .logo-icon {
             display: inline-block;
             vertical-align: middle;
@@ -66,7 +61,6 @@
             object-fit: cover;
         }
 
-        /* Additional style for project images (logos) */
         .logo-image {
             max-width: 100%;
             height: auto;
@@ -74,28 +68,23 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             cursor: pointer;
             transition: transform 0.2s ease-in-out;
-            /* Ensure images maintain aspect ratio within the grid */
-            aspect-ratio: 1 / 1; /* Or adjust as needed, e.g., 3 / 2 */
-            object-fit: cover; /* Cover the area, might crop */
-            /* object-fit: contain; /* Fit within the area, might leave empty space */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
         }
 
         .logo-image:hover {
             transform: scale(1.05);
         }
 
-        /* Style for containers with a white background */
         .bg-white {
             background-color: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(5px);
         }
 
-        /* Improve text visibility inside white blocks */
         .bg-white h3, .bg-white h4, .bg-white p, .bg-white ul, .bg-white li {
             color: #333;
         }
 
-        /* Improve link visibility inside white blocks */
         .bg-white a {
             color: #0000ff;
         }
@@ -104,7 +93,6 @@
             text-decoration: underline;
         }
 
-        /* Style for the "Back to Main" button */
         .bg-purple-600 {
             background-color: #a020f0;
         }
@@ -113,7 +101,6 @@
             background-color: #9010e0;
         }
 
-        /* --- Preloader Styles --- */
         #preloader {
             position: fixed;
             left: 0;
@@ -207,33 +194,26 @@
                 opacity: 1;
             }
         }
-        /* --- End of Preloader Styles --- */
 
-        /* Styles for the logo grid */
         .logo-grid {
             display: grid;
-            /* Adjust minmax for desired minimum logo size */
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 24px; /* Increased gap */
+            gap: 24px;
         }
 
         .logo-item {
-            /* Add some padding and background for visual separation if needed */
-            /* background-color: rgba(255, 255, 255, 0.5); */
-            /* padding: 8px; */
             border-radius: 8px;
-            text-align: center; /* Center the title */
+            text-align: center;
         }
 
 
-        /* --- Fullscreen Image Viewer Styles --- */
         #fullscreen-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay */
+            background-color: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -241,7 +221,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-            padding: 20px; /* Add padding around the image */
+            padding: 20px;
         }
 
         #fullscreen-overlay.visible {
@@ -251,8 +231,8 @@
 
         #enlarged-image-container {
             position: relative;
-            max-width: 90vw;  /* Limit width relative to viewport width */
-            max-height: 90vh; /* Limit height relative to viewport height */
+            max-width: 90vw;
+            max-height: 90vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -262,9 +242,9 @@
             display: block;
             max-width: 100%;
             max-height: 100%;
-            object-fit: contain; /* Ensure the whole image is visible */
-            border-radius: 8px; /* Optional: round corners */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Add shadow */
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             transform: scale(0.75);
             transition: transform 0.3s ease-in-out;
         }
@@ -275,15 +255,15 @@
 
         #close-button {
             position: absolute;
-            top: -10px; /* Adjust position */
-            right: -10px; /* Adjust position */
+            top: -10px;
+            right: -10px;
             color: white;
-            font-size: 35px; /* Slightly smaller */
+            font-size: 35px;
             font-weight: bold;
             cursor: pointer;
-            background-color: rgba(50, 50, 50, 0.7); /* Semi-transparent background */
+            background-color: rgba(50, 50, 50, 0.7);
             border-radius: 50%;
-            width: 45px; /* Slightly larger button */
+            width: 45px;
             height: 45px;
             display: flex;
             justify-content: center;
@@ -295,13 +275,10 @@
 
         #close-button:hover {
             background-color: rgba(0, 0, 0, 0.9);
-            transform: scale(1.1); /* Slight scale effect on hover */
+            transform: scale(1.1);
         }
-        /* --- End of Fullscreen Image Viewer Styles --- */
 
-        /* Error handling for images */
         .logo-image[data-failed="true"] {
-            /* Style for failed images */
             border: 2px dashed #ccc;
             position: relative;
             background-color: #f0f0f0;
@@ -335,7 +312,7 @@
     </div>
 
     <header class="bg-white bg-opacity-80 py-4 shadow-md rounded-b-lg sticky top-0 z-40"> <div class="container mx-auto px-4 flex items-center justify-between">
-            <h1 class="magic-title text-3xl font-bold flex items-center"> <img src="https://i.imgur.com/jq47Okf.png" alt="LogoPulp Logo" class="header-logo-icon mr-2"> LogoPulp - Логотипы
+            <h1 class="magic-title text-3xl font-bold flex items-center"> <img src="https://i.imgur.com/jq47Okf.png" alt="[Логотип LogoPulp]" class="header-logo-icon mr-2"> LogoPulp - Логотипы
             </h1>
             <a href="main_site.html" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
                 На главную
@@ -463,96 +440,73 @@
     </div>
 
     <script>
-        // Function to handle image loading errors
         function handleImageError(img) {
             console.error('Failed to load image:', img.src);
-            // Optional: Replace with a placeholder or add a class
-            img.src = 'https://placehold.co/300x300/cccccc/ffffff?text=Ошибка'; // Fallback placeholder
+            img.src = 'https://placehold.co/300x300/cccccc/ffffff?text=Ошибка';
             img.alt = 'Не удалось загрузить изображение';
-            img.dataset.failed = 'true'; // Mark as failed for CSS styling
-            // Prevent the click listener from activating on broken images
+            img.dataset.failed = 'true';
             img.removeEventListener('click', openFullscreen);
         }
 
-        // Wait for the window to fully load (including styles, images, etc.)
         window.onload = function() {
             const preloader = document.getElementById('preloader');
-            // Add the 'hidden' class to start the CSS transition for fading out
             preloader.classList.add('hidden');
 
-            // Add error handlers to all logo images after the page loads
-            // This ensures the onerror attribute works correctly
             document.querySelectorAll('.logo-image').forEach(img => {
-                // Double-check if the image is already broken before adding the listener
                 if (img.naturalWidth === 0 && img.naturalHeight === 0 && !img.complete) {
-                     // It might already be broken or hasn't loaded yet, onerror will handle it
                 } else if (img.complete && (img.naturalWidth === 0 || img.naturalHeight === 0)) {
-                    // If it's complete but has no dimensions, it's broken
                     handleImageError(img);
                 }
-                // The onerror attribute handles errors during loading
             });
         }
 
-        // --- Script for fullscreen image viewer ---
         const fullscreenOverlay = document.getElementById('fullscreen-overlay');
         const enlargedImage = document.getElementById('enlarged-image');
         const closeButton = document.getElementById('close-button');
-        const clickableImages = document.querySelectorAll('.logo-grid .logo-image'); // Select only images in the grid
+        const clickableImages = document.querySelectorAll('.logo-grid .logo-image');
 
-        // Function to open the fullscreen view
         function openFullscreen() {
-             // Check if the image failed to load before opening
             if (this.dataset.failed === 'true') {
-                return; // Don't open overlay for broken images
+                return;
             }
             enlargedImage.src = this.src;
-            enlargedImage.alt = this.alt.replace('[Пример', 'Увеличенный вид'); // Update alt text
+            enlargedImage.alt = this.alt.replace('[Пример', 'Увеличенный вид');
             fullscreenOverlay.classList.add('visible');
-            // Reset scale before showing, then animate
             enlargedImage.style.transform = 'scale(0.75)';
-            requestAnimationFrame(() => { // Use requestAnimationFrame for smoother transition start
+            requestAnimationFrame(() => {
                  requestAnimationFrame(() => {
                      enlargedImage.style.transform = 'scale(1)';
                  });
             });
         }
 
-        // Function to close the fullscreen view
         function closeOverlay() {
             enlargedImage.style.transform = 'scale(0.75)';
-            // Listen for the transition to end before hiding the overlay
             enlargedImage.addEventListener('transitionend', () => {
                 fullscreenOverlay.classList.remove('visible');
-                enlargedImage.src = ""; // Clear src to free memory
+                enlargedImage.src = "";
                 enlargedImage.alt = "Увеличенное изображение";
-            }, { once: true }); // Remove listener after it runs once
+            }, { once: true });
         }
 
-        // Add click listeners to images
         clickableImages.forEach(image => {
-            // Only add listener if the image hasn't failed
              if (image.dataset.failed !== 'true') {
                 image.addEventListener('click', openFullscreen);
              }
         });
 
-        // Add listeners for closing the overlay
         closeButton.addEventListener('click', closeOverlay);
         fullscreenOverlay.addEventListener('click', function(event) {
-            // Close only if clicking on the background overlay itself
             if (event.target === fullscreenOverlay) {
                 closeOverlay();
             }
         });
 
-        // Optional: Close overlay with Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape' && fullscreenOverlay.classList.contains('visible')) {
                 closeOverlay();
             }
         });
-        // --- End of Fullscreen Image Viewer Script ---
     </script>
 </body>
 </html>
