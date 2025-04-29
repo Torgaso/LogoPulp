@@ -10,28 +10,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Применение шрифта Inter ко всему сайту */
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Плавный градиент для фона */
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        /* Стиль для "волшебного" заголовка */
         .magic-title {
             background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
-        /* Анимация для кнопок при наведении */
         .social-link:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- Стили для прелоадера --- */
         #preloader {
             position: fixed;
             left: 0;
@@ -125,16 +120,13 @@
                 opacity: 1;
             }
         }
-        /* --- Конец стилей для прелоадера --- */
 
-        /* Дополнительный стиль для изображений в портфолио */
         .portfolio-image {
             object-fit: cover;
             width: 100%;
             height: calc(100% - 40px);
         }
 
-        /* Стиль для иконки рядом с названием сайта */
         .logo-icon {
             display: inline-block;
             vertical-align: middle;
@@ -145,7 +137,6 @@
             object-fit: cover;
         }
 
-        /* Стиль для контейнера элемента портфолио, используем flexbox для размещения изображения и кнопки */
         .portfolio-item {
             background-color: #e5e7eb;
             height: 256px;
@@ -164,7 +155,6 @@
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Стиль для кнопки в портфолио */
         .portfolio-button {
             display: inline-block;
             width: calc(100% - 1rem);
@@ -309,10 +299,8 @@
     </footer>
 
     <script>
-        // Ждем полной загрузки окна (включая стили, картинки и т.д.)
         window.onload = function() {
             const preloader = document.getElementById('preloader');
-            // Добавляем класс hidden, чтобы запустить CSS transition для исчезновения
             preloader.classList.add('hidden');
         }
     </script>
