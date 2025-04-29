@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>История проекта TS - LogoPulp</title>
+<link href="https://i.imgur.com/jq47Okf.png" rel="icon" type="image/png"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Применение шрифта Comic Sans MS Bold ко всему сайту */
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Используем Comic Sans MS Bold */
+            color: #333; /* Устанавливаем основной цвет текста для лучшей читаемости */
+            margin: 0; /* Убираем стандартные отступы body */
+            padding: 0; /* Убираем стандартные отступы body */
+            position: relative; /* Делаем body родительским для абсолютного позиционирования фона */
+        }
+
+        /* Стиль для контейнера фона с размытием */
+        .background-container {
+            position: fixed; /* Фиксируем фон */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://cdn.mos.cms.futurecdn.net/eWzNZYHYvSUYqBQ7mKyR4i.gif'); /* Указанный GIF фон */
+            background-size: cover; /* Растягиваем изображение на всю площадь */
+            background-repeat: no-repeat; /* Не повторяем изображение */
+            background-attachment: fixed; /* Фиксируем фон при прокрутке */
+            filter: blur(5px); /* Добавляем размытие */
+            z-index: -1; /* Отправляем фон на задний план */
+        }
+
+
+        /* Удаляем старый градиентный фон */
+        .gradient-bg {
+            background: none;
+        }
+
+        /* Стиль для "волшебного" заголовка - адаптируем под новый фон и шрифт */
+        .magic-title {
+            /* Сохраняем градиент текста, если он нужен, или меняем цвет */
+            background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); /* Увеличиваем тень для контраста */
+            color: #fff; /* Устанавливаем резервный цвет текста */
+        }
+
+         /* Стиль для иконки рядом с названием сайта (в заголовке) */
+         .header-logo-icon {
+             display: inline-block; /* Позволяет изображению быть рядом с текстом */
+             vertical-align: middle; /* Выравнивание по центру текста */
+             margin-right: 8px; /* Отступ справа */
+             width: 32px; /* Размер изображения */
+             height: 32px; /* Размер изображения */
+             border-radius: 50%; /* Круглая форма (если нужно) */
+             object-fit: cover; /* Обрезка изображения для круглой формы (если нужно) */
+         }
+
+         /* Стиль для иконки рядом с названием сайта (в тексте, если используется) */
+         .logo-icon {
+             display: inline-block; /* Позволяет изображению быть рядом с текстом */
+             vertical-align: middle; /* Выравнивание по центру текста */
+             margin-left: 8px; /* Отступ слева */
+             width: 32px; /* Размер изображения */
+             height: 32px; /* Размер изображения */
+             border-radius: 50%; /* Круглая форма (если нужно) */
+             object-fit: cover; /* Обрезка изображения для круглой формы (если нужно) */
+         }
+
+
+         /* Стиль для текста "TS", который будет кликабельным */
+         .ts-clickable {
+             cursor: pointer; /* Изменяем курсор при наведении */
+             display: inline-block; /* Позволяет применять трансформации и быть родителем */
+             transition: transform 0.2s ease-in-out; /* Плавное изменение при наведении */
+             position: relative; /* Делаем родительским для абсолютного позиционирования изображения */
+         }
+
+         /* Правило для видимости текста TS внутри magic-title с указанным цветом */
+         .magic-title .ts-clickable {
+             /* Используем цвет, который хорошо виден на новом фоне */
+             -webkit-text-fill-color: #ffff00; /* Ярко-желтый для Webkit браузеров */
+             color: #ffff00; /* Ярко-желтый для других браузеров */
+             filter: drop-shadow(0 0 5px rgba(255,255,0,0.8)); /* Добавляем свечение */
+         }
+
+         .ts-clickable:hover {
+             transform: scale(1.1); /* Увеличение при наведении */
+         }
+
+         /* Стиль для анимированного изображения TS */
+         .animated-image {
+             position: absolute; /* Абсолютное позиционирование относительно родителя (.ts-clickable) */
+             bottom: 70%; /* Позиционируем нижний край изображения выше */
+             left: 50%; /* Центрируем по горизонтали */
+             /* Корректируем transform, чтобы поднять изображение выше и центрировать его */
+             transform: translate(-50%, 10%) scale(0.5); /* Сдвиг вниз на 10% от ВЫСОТЫ ИЗОБРАЖЕНИЯ и начальный размер */
+             width: 100px; /* Размер изображения */
+             height: auto;
+             pointer-events: none; /* Игнорировать события мыши */
+             opacity: 0; /* Изначально скрыто */
+             transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Анимация появления */
+             z-index: 10; /* Поверх других элементов */
+         }
+
+         .animated-image.visible {
+             opacity: 1; /* Делаем видимым */
+             /* Корректируем transform для конечного положения */
+             transform: translate(-50%, -30%) scale(1); /* Сдвиг вверх на 30% от ВЫСОТЫ ИЗОБРАЖЕНИЯ и конечный размер */
+         }
+
+         /* Дополнительный стиль для изображений проекта */
+        .project-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px; /* Скругленные углы */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Увеличиваем тень для контраста */
+            cursor: pointer; /* Добавляем курсор-указатель для кликабельности */
+            transition: transform 0.2s ease-in-out; /* Плавное изменение при наведении */
+        }
+
+        .project-image:hover {
+             transform: scale(1.05); /* Небольшое увеличение при наведении */
+        }
+
+
+         /* Стиль для изображения члена команды */
+         .team-member-image {
+             width: 40px; /* Размер изображения */
+             height: 40px; /* Размер изображения */
+             border-radius: 50%; /* Круглая форма */
+             object-fit: cover; /* Обрезка изображения */
+             margin-right: 8px; /* Отступ справа от текста */
+             display: inline-block; /* Позволяет быть рядом с текстом */
+             vertical-align: middle; /* Выравнивание по центру текста */
+         }
+
+         /* Стиль для кликабельного имени Dii и контейнера для изображения */
+         .dii-container {
+             position: relative; /* Делаем контейнер родительским для абсолютного позиционирования */
+             display: inline-block; /* Позволяет контейнеру быть в потоке текста */
+         }
+
+         .dii-clickable {
+             cursor: pointer; /* Изменяем курсор при наведении */
+             color: #ffff00; /* Ярко-желтый цвет текста */
+             font-weight: bold; /* Жирный текст */
+         }
+
+         /* Стиль для изображения Dii, изначально скрыто */
+         .dii-image {
+             position: absolute;
+             bottom: 100%; /* Позиционируем верхний край изображения к верхнему краю родителя */
+             left: 50%; /* Центрируем по горизонтали относительно родителя */
+             transform: translateX(-50%); /* Дополнительное смещение для точного центрирования */
+             width: 80px; /* Размер изображения */
+             height: 80px; /* Размер изображения */
+             border-radius: 50%; /* Круглая форма */
+             object-fit: cover; /* Обрезка изображения */
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Увеличиваем тень */
+             opacity: 0; /* Изначально скрыто */
+             visibility: hidden; /* Изначально скрыто */
+             transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Плавное появление */
+             z-index: 10; /* Поверх других элементов */
+         }
+
+         .dii-image.visible {
+             opacity: 1; /* Делаем видимым */
+             visibility: visible; /* Делаем видимым */
+         }
+
+         /* Стиль для ссылок на членов команды */
+         .team-link {
+            color: #ffffff; /* Белый цвет для лучшей видимости на фоне */
+            text-decoration: none; /* Без подчеркивания по умолчанию */
+            transition: color 0.3s ease;
+         }
+
+         .team-link:hover {
+            color: #ffff00; /* Ярко-желтый при наведении */
+            text-decoration: underline; /* Подчеркивание при наведении */
+         }
+
+         /* Стиль для контейнеров с белым фоном, чтобы они выделялись */
+         .bg-white {
+             background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
+             backdrop-filter: blur(5px); /* Добавляем размытие фона под контейнером */
+         }
+
+         /* Улучшаем видимость текста внутри белых блоков */
+         .bg-white h3, .bg-white h4, .bg-white p, .bg-white ul, .bg-white li {
+             color: #333; /* Темный цвет текста */
+         }
+
+         /* Улучшаем видимость ссылок внутри белых блоков */
+         .bg-white a {
+             color: #0000ff; /* Синий цвет ссылок */
+         }
+
+         .bg-white a:hover {
+             text-decoration: underline;
+         }
+
+         /* Стиль для кнопки "Вернуться на главную" */
+         .bg-purple-600 {
+             background-color: #a020f0; /* Фиолетовый цвет */
+         }
+
+         .hover\:bg-purple-700:hover {
+             background-color: #8a2be2; /* Темнее фиолетовый при наведении */
+         }
+
+         
+
+        /* Стили для сетки логотипов */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+            gap: 8px; /* Небольшой отступ между изображениями */
+        }
+
+        .logo-grid .project-image {
+            width: 100%; /* Изображение занимает всю ширину ячейки */
+            height: auto; /* Сохраняем пропорции */
+            max-width: none; /* Убираем ограничение max-width */
+            margin-bottom: 0; /* Убираем нижний отступ */
+        }
+
+        /* --- Стили для полноэкранного просмотра изображения --- */
+        #fullscreen-overlay {
+            position: fixed; /* Фиксируем на весь экран */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.75); /* Полупрозрачный черный фон */
+            display: flex; /* Используем flexbox для центрирования */
+            justify-content: center;
+            align-items: center;
+            z-index: 50; /* Высокий z-index, чтобы быть поверх всего */
+            opacity: 0; /* Изначально полностью прозрачный */
+            visibility: hidden; /* Изначально скрыт */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Плавное появление/исчезновение */
+        }
+
+        #fullscreen-overlay.visible {
+            opacity: 1; /* Делаем видимым */
+            visibility: visible; /* Делаем видимым */
+        }
+
+        #enlarged-image-container {
+            position: relative; /* Для позиционирования кнопки закрытия относительно контейнера */
+            max-width: 95%; /* Ограничиваем максимальную ширину */
+            max-height: 95%; /* Ограничиваем максимальную высоту */
+            display: flex; /* Flexbox для центрирования изображения внутри контейнера */
+            justify-content: center;
+            align-items: center;
+        }
+
+        #enlarged-image {
+            display: block; /* Убираем лишние отступы */
+            max-width: 100%; /* Изображение не превышает ширину контейнера */
+            max-height: 100%; /* Изображение не превышает высоту контейнера */
+            object-fit: contain; /* Сохраняем пропорции, вписывая изображение */
+            transform: scale(0.75); /* Начальный размер для анимации */
+            transition: transform 0.3s ease-in-out; /* Плавное изменение размера */
+        }
+
+        #fullscreen-overlay.visible #enlarged-image {
+            transform: scale(1); /* Увеличиваем до нормального размера при видимом оверлее */
+        }
+
+
+        #close-button {
+            position: absolute; /* Абсолютное позиционирование */
+            top: 10px; /* Отступ сверху */
+            right: 10px; /* Отступ справа */
+            color: white; /* Цвет крестика */
+            font-size: 40px; /* Размер крестика */
+            font-weight: bold; /* Жирный шрифт */
+            cursor: pointer; /* Курсор-указатель */
+            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон кнопки */
+            border-radius: 50%; /* Круглая форма кнопки */
+            width: 40px; /* Ширина кнопки */
+            height: 40px; /* Высота кнопки */
+            display: flex; /* Flexbox для центрирования крестика */
+            justify-content: center;
+            align-items: center;
+            line-height: 1; /* Корректируем высоту строки для центрирования */
+            z-index: 51; /* Выше изображения */
+            transition: background-color 0.2s ease-in-out; /* Плавное изменение фона при наведении */
+        }
+
+        #close-button:hover {
+            background-color: rgba(0, 0, 0, 0.8); /* Темнее фон при наведении */
+        }
+        /* --- Конец стилей для полноэкранного просмотра изображения --- */
+
+
+    
+#preloader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: #f7f7f7;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loader {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.circle {
+    position: absolute;
+    border: 4px solid transparent;
+    border-radius: 50%;
+    animation: rotate 1.5s linear infinite;
+}
+
+.circle-1 {
+    width: 80px;
+    height: 80px;
+    border-top-color: #3498db;
+    animation-duration: 2s;
+}
+
+.circle-2 {
+    width: 60px;
+    height: 60px;
+    top: 10px;
+    left: 10px;
+    border-right-color: #e74c3c;
+    animation-duration: 1.8s;
+    animation-direction: reverse;
+}
+
+.circle-3 {
+    width: 40px;
+    height: 40px;
+    top: 20px;
+    left: 20px;
+    border-bottom-color: #2ecc71;
+    animation-duration: 1.6s;
+}
+
+.loading-text {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0.2;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+</style>
+</head>
+<body>
+<div class="background-container"></div>
+
+<div id="preloader">
+<div class="loader-container">
+<div class="loader">
+<div class="circle circle-1"></div>
+<div class="circle circle-2"></div>
+<div class="circle circle-3"></div>
+</div>
+<div class="loading-text">Загрузка...</div>
+</div>
+</div>
+
+<header class="gradient-bg text-white shadow-md">
+<nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+<h1 class="text-3xl font-bold flex items-center">
+<img alt="[Иконка LogoPulp]" class="header-logo-icon" src="https://i.imgur.com/jq47Okf.png"/>
+<a class="hover:text-gray-200 transition duration-300" href="main_site.html">LogoPulp</a>
+<img alt="[GIF проекта TS]" class="logo-icon" src="https://i.imgur.com/kEL2XqB.gif"/>
+</h1>
+</nav>
+</header>
+<main class="container mx-auto px-6 py-12">
+<section class="mb-12">
+<h2 class="text-4xl font-bold text-center mb-8 magic-title">История проекта <span class="ts-clickable" id="ts-trigger" style="position: relative;">TS
+                <img alt="[Анимированное изображение TS]" class="animated-image" id="ts-animated-image" src="https://i.imgur.com/EcNPSHR.png"/>
+</span></h2>
+<div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
+<p class="text-lg mb-6">
+                    Проект TS - это важная часть моего профессионального пути. Я выполнял роль дизайнера для этого проекта с <strong class="text-purple-700">2022 по 2024 год</strong>.
+                </p>
+<h3 class="text-2xl font-bold mb-4">О проекте:</h3>
+<p class="mb-6">
+                    За время моего участия, я занимался созданием различных визуальных материалов, которые помогали проекту развиваться и привлекать внимание аудитории.
+                </p>
+<h3 class="text-2xl font-bold mb-4">О проекте Terraria.by:</h3>
+<p class="mb-6">
+<a class="text-blue-600 hover:underline" href="http://terraria.by/" rel="noopener noreferrer" target="_blank">Terraria.by</a> является основным проектом, позиционируется как лучший сервер Terraria со всеми вещами, боссами и PvP.
+                </p>
+<h3 class="text-2xl font-bold mb-4">О проекте Terraria Survival:</h3>
+<p class="mb-6">
+                    "Terraria Survival" - это второй проект, популярный русскоязычный сервер Terraria в режиме выживания с экономикой, PvE, PvP и TShock.
+                </p>
+<h4 class="text-xl font-bold mb-4">Сообщество Terraria Survival:</h4>
+<ul class="list-disc list-inside mb-6">
+<li>
+<a class="text-blue-600 hover:underline" href="https://vk.com/terrariasurvival" rel="noopener noreferrer" target="_blank">
+                            VK: Terraria Survival
+                        </a>
+</li>
+<li>
+<a class="text-blue-600 hover:underline" href="https://discord.gg/ebTvRmDNMf" rel="noopener noreferrer" target="_blank">
+                             Discord: Terraria Survival
+                        </a>
+</li>
+<li>
+<a class="text-blue-600 hover:underline" href="https://vk.com/terraria_by" rel="noopener noreferrer" target="_blank">
+                             VK: Terraria.by
+                        </a>
+</li>
+</ul>
+<h3 class="text-2xl font-bold mb-4">Состав команды:</h3>
+<div class="mb-6">
+<p>
+                        Владелец проекта
+                        <span class="dii-container"> <span class="dii-clickable" id="dii-trigger">Dii</span> <a class="team-link" href="https://discordapp.com/users/372367385778323467" rel="noopener noreferrer" target="_blank"> (@terrariaservers)
+                            </a>
+<img alt="[Изображение Dii]" class="dii-image" id="dii-image" src="https://cdn.discordapp.com/avatars/372367385778323467/157fa10764a9e33fd7e8cf18a130ae81.png?size=2048"/> </span>
+</p>
+<p>
+                        Управляющий стафф:
+                    </p>
+<ul class="list-disc list-inside ml-4">
+<li>
+<img alt="[Изображение oli]" class="team-member-image" src="https://cdn.discordapp.com/avatars/629741797102452736/7fd160013bcff48ac6fcdad4e62be890.png?size=2048"/>
+                            Руководитель проекта oli
+                            <a class="team-link" href="https://discordapp.com/users/629741797102452736" rel="noopener noreferrer" target="_blank">
+                                ($ssykesss)
+                            </a>
+</li>
+<li>
+<img alt="[Изображение ✞ DaniNam ✞]" class="team-member-image" src="https://cdn.discordapp.com/avatars/416620125479895040/37db0f8b4b43b99b8eab721fef297a8c.png?size=2048"/>
+                             Менеджер: ✞ DaniNam ✞
+                             <a class="team-link" href="https://discordapp.com/users/416620125479895040" rel="noopener noreferrer" target="_blank">
+                                 (@daninam)
+                             </a>
+</li>
+<li>
+<img alt="[Изображение Dfff]" class="team-member-image" src="https://cdn.discordapp.com/avatars/801464063598788628/b9b65542c87604f9d715f3aca2577b6b.png?size=2048"/>
+                            Менеджер: Dfff
+                            <a class="team-link" href="https://discordapp.com/users/801464063598788628" rel="noopener noreferrer" target="_blank">
+                                (@Dfff.)
+                            </a>
+</li>
+<li>
+<img alt="[Изображение Chel.]" class="team-member-image" src="https://cdn.discordapp.com/avatars/406816658007523329/c95cc87f8d01976fee6d23bde7351447.png?size=2048"/>
+                            Менеджер: Chel.
+                            <a class="team-link" href="https://discordapp.com/users/406816658007523329" rel="noopener noreferrer" target="_blank">
+                                (@chell.co)
+                            </a>
+</li>
+</ul>
+</div>
+<h3 class="text-2xl font-bold mb-4">Мои работы для TS:</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+<div>
+<h4 class="text-xl font-semibold mb-3">Баннеры:</h4>
+<img alt="Баннер проекта TS 1" class="project-image mb-4" src="https://i.imgur.com/xrphuZ7.png"/>
+<img alt="Баннер проекта TS 2" class="project-image mb-4" src="https://i.imgur.com/ern9vER.jpeg"/>
+<img alt="Баннер проекта TS 3" class="project-image" src="https://i.imgur.com/24uMSyt.png"/>
+</div>
+<div>
+<h4 class="text-xl font-semibold mb-3">Логотипы:</h4>
+<div class="logo-grid">
+<img alt="Логотип проекта TS 1" class="project-image" src="https://i.imgur.com/BCSdLDo.gif"/>
+<img alt="Логотип проекта TS 2" class="project-image" src="https://i.imgur.com/9HoKqoR.jpeg"/>
+<img alt="Логотип проекта TS 3" class="project-image" src="https://i.imgur.com/DEk2YWj.gif"/>
+<img alt="Логотип проекта TS 4" class="project-image" src="https://i.imgur.com/V8rVr2K.gif"/>
+<img alt="Логотип проекта TS 5" class="project-image" src="https://i.imgur.com/kEL2XqB.gif"/>
+</div>
+</div>
+</div>
+<div class="text-center mt-8">
+<a class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block shadow-lg hover:shadow-xl" href="main_site.html">Вернуться на главную</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="gradient-bg text-white mt-16 py-6">
+<div class="container mx-auto px-6 text-center">
+<p>© 2025 LogoPulp. Все права защищены.</p>
+<p>Автор портфолио: Антон Сосновский</p>
+</div>
+</footer>
+<div id="fullscreen-overlay">
+<div id="enlarged-image-container">
+<img alt="Enlarged Image" id="enlarged-image" src=""/>
+<span id="close-button">×</span>
+</div>
+</div>
+<script>
+        // Ждем полной загрузки окна (включая стили, картинки и т.д.)
+        window.onload = function() {
+            const preloader = document.getElementById('preloader');
+            // Добавляем класс hidden, чтобы запустить CSS transition для исчезновения
+            preloader.classList.add('hidden');
+        }
+
+        // Получаем элементы для анимации TS в заголовке
+        const tsTrigger = document.getElementById('ts-trigger');
+        const animatedImage = document.getElementById('ts-animated-image');
+        let hideTimeout = null; // Переменная для хранения ID таймера
+
+        // Добавляем слушатель события клика для анимации TS
+        tsTrigger.addEventListener('click', function() {
+            // Очищаем предыдущий таймер, если он существует
+            if (hideTimeout) {
+                clearTimeout(hideTimeout);
+            }
+
+            // Добавляем класс 'visible' для отображения и анимации появления
+            animatedImage.classList.add('visible');
+
+            // Устанавливаем новый таймер для скрытия изображения через 5 секунд
+            hideTimeout = setTimeout(function() {
+                animatedImage.classList.remove('visible');
+            }, 5000); // 5000 миллисекунд = 5 секунд
+        });
+
+        // Получаем элементы для показа/скрытия изображения Dii
+        const diiTrigger = document.getElementById('dii-trigger');
+        const diiImage = document.getElementById('dii-image');
+
+        // Добавляем слушатель события клика для Dii
+        diiTrigger.addEventListener('click', function() {
+            // Переключаем класс 'visible' для показа/скрытия изображения
+            diiImage.classList.toggle('visible');
+        });
+
+        // --- Скрипт для полноэкранного просмотра изображений ---
+
+        // Получаем элементы
+        const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+        const enlargedImage = document.getElementById('enlarged-image');
+        const closeButton = document.getElementById('close-button');
+        // Выбираем все изображения с классом 'project-image' для кликабельности
+        const clickableImages = document.querySelectorAll('.project-image');
+
+        // Добавляем слушатели клика для каждого изображения
+        clickableImages.forEach(image => {
+            image.addEventListener('click', function() {
+                // Устанавливаем источник изображения для увеличенного изображения
+                enlargedImage.src = this.src;
+                // Делаем оверлей видимым
+                fullscreenOverlay.classList.add('visible');
+                // Убеждаемся, что изображение имеет начальный размер для анимации
+                enlargedImage.style.transform = 'scale(0.75)';
+                // Небольшая задержка, чтобы браузер успел применить начальный transform
+                setTimeout(() => {
+                    // Запускаем анимацию увеличения
+                    enlargedImage.style.transform = 'scale(1)';
+                }, 10); // Минимальная задержка
+            });
+        });
+
+        // Функция для закрытия оверлея
+        function closeOverlay() {
+            // Запускаем анимацию уменьшения
+            enlargedImage.style.transform = 'scale(0.75)';
+            // Убираем класс видимости оверлея
+            fullscreenOverlay.classList.remove('visible');
+
+            // Ждем завершения анимации перед полным скрытием оверлея
+            enlargedImage.addEventListener('transitionend', function() {
+                 // Проверяем, что анимация уменьшения завершена
+                 const style = window.getComputedStyle(enlargedImage);
+                 const matrix = new WebKitCSSMatrix(style.transform);
+                 if (matrix.m11 <= 0.75) { // Проверяем коэффициент масштабирования
+                     // Полностью скрываем оверлей после анимации
+                     fullscreenOverlay.classList.remove('visible'); // Повторно убираем класс visible
+                 }
+            }, { once: true }); // Слушатель сработает только один раз
+        }
+
+        // Добавляем слушатель клика для кнопки закрытия
+        closeButton.addEventListener('click', closeOverlay);
+
+        // Добавляем слушатель клика для самого оверлея (для закрытия при клике вне изображения)
+        fullscreenOverlay.addEventListener('click', function(event) {
+            // Проверяем, был ли клик непосредственно по оверлею, а не по изображению или кнопке закрытия
+            if (event.target === fullscreenOverlay) {
+                closeOverlay();
+            }
+        });
+
+        // --- Конец скрипта для полноэкранного просмотра изображений ---
+    </script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogoPulp - Логотипы</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/jq47Okf.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Comic Sans MS font */
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Background container with blur */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.pinimg.com/originals/ca/aa/b5/caaab557bf2329ea0dd96798ef6bf71e.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        /* Style for the "magic" title */
+        .magic-title {
+            background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            color: #fff;
+        }
+
+        /* Style for the icon next to the site name in the header */
+        .header-logo-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+            margin-right: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Style for the icon next to the site name (if used in text) */
+        .logo-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Additional style for project images (logos) */
+        .logo-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            /* Ensure images maintain aspect ratio within the grid */
+            aspect-ratio: 1 / 1; /* Or adjust as needed, e.g., 3 / 2 */
+            object-fit: cover; /* Cover the area, might crop */
+            /* object-fit: contain; /* Fit within the area, might leave empty space */
+        }
+
+        .logo-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Style for containers with a white background */
+        .bg-white {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Improve text visibility inside white blocks */
+        .bg-white h3, .bg-white h4, .bg-white p, .bg-white ul, .bg-white li {
+            color: #333;
+        }
+
+        /* Improve link visibility inside white blocks */
+        .bg-white a {
+            color: #0000ff;
+        }
+
+        .bg-white a:hover {
+            text-decoration: underline;
+        }
+
+        /* Style for the "Back to Main" button */
+        .bg-purple-600 {
+            background-color: #a020f0;
+        }
+
+        .bg-purple-600:hover {
+            background-color: #9010e0;
+        }
+
+        /* --- Preloader Styles --- */
+        #preloader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .loader {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .circle {
+            position: absolute;
+            border: 4px solid transparent;
+            border-radius: 50%;
+            animation: rotate 1.5s linear infinite;
+        }
+
+        .circle-1 {
+            width: 80px;
+            height: 80px;
+            border-top-color: #3498db;
+            animation-duration: 2s;
+        }
+
+        .circle-2 {
+            width: 60px;
+            height: 60px;
+            top: 10px;
+            left: 10px;
+            border-right-color: #e74c3c;
+            animation-duration: 1.8s;
+            animation-direction: reverse;
+        }
+
+        .circle-3 {
+            width: 40px;
+            height: 40px;
+            top: 20px;
+            left: 20px;
+            border-bottom-color: #2ecc71;
+            animation-duration: 1.6s;
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0.2;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        /* --- End of Preloader Styles --- */
+
+        /* Styles for the logo grid */
+        .logo-grid {
+            display: grid;
+            /* Adjust minmax for desired minimum logo size */
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px; /* Increased gap */
+        }
+
+        .logo-item {
+            /* Add some padding and background for visual separation if needed */
+            /* background-color: rgba(255, 255, 255, 0.5); */
+            /* padding: 8px; */
+            border-radius: 8px;
+            text-align: center; /* Center the title */
+        }
+
+
+        /* --- Fullscreen Image Viewer Styles --- */
+        #fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            padding: 20px; /* Add padding around the image */
+        }
+
+        #fullscreen-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #enlarged-image-container {
+            position: relative;
+            max-width: 90vw;  /* Limit width relative to viewport width */
+            max-height: 90vh; /* Limit height relative to viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #enlarged-image {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ensure the whole image is visible */
+            border-radius: 8px; /* Optional: round corners */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Add shadow */
+            transform: scale(0.75);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #fullscreen-overlay.visible #enlarged-image {
+            transform: scale(1);
+        }
+
+        #close-button {
+            position: absolute;
+            top: -10px; /* Adjust position */
+            right: -10px; /* Adjust position */
+            color: white;
+            font-size: 35px; /* Slightly smaller */
+            font-weight: bold;
+            cursor: pointer;
+            background-color: rgba(50, 50, 50, 0.7); /* Semi-transparent background */
+            border-radius: 50%;
+            width: 45px; /* Slightly larger button */
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            z-index: 51;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease;
+        }
+
+        #close-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1); /* Slight scale effect on hover */
+        }
+        /* --- End of Fullscreen Image Viewer Styles --- */
+
+        /* Error handling for images */
+        .logo-image[data-failed="true"] {
+            /* Style for failed images */
+            border: 2px dashed #ccc;
+            position: relative;
+            background-color: #f0f0f0;
+        }
+        .logo-image[data-failed="true"]::after {
+            content: 'Не удалось загрузить изображение';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #888;
+            font-size: 12px;
+            text-align: center;
+            padding: 5px;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="background-container"></div>
+
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="loader">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+            <div class="loading-text">Загрузка...</div>
+        </div>
+    </div>
+
+    <header class="bg-white bg-opacity-80 py-4 shadow-md rounded-b-lg sticky top-0 z-40"> <div class="container mx-auto px-4 flex items-center justify-between">
+            <h1 class="magic-title text-3xl font-bold flex items-center"> <img src="https://i.imgur.com/jq47Okf.png" alt="LogoPulp Logo" class="header-logo-icon mr-2"> LogoPulp - Логотипы
+            </h1>
+            <a href="main_site.html" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                На главную
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold mb-6 text-center text-blue-700">Примеры Логотипов</h2>
+            <div class="logo-grid">
+                <div class="logo-item">
+                    <img src="https://i.imgur.com/WBmWzse.jpeg" alt="[Пример Логотипа 1]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 1</h3>
+                </div>
+                <div class="logo-item">
+                    <img src="https://i.imgur.com/YEEKt6F.jpeg" alt="[Пример Логотипа 2]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 2</h3>
+                </div>
+                <div class="logo-item">
+                    <img src="https://i.imgur.com/fwRtYLP.jpeg" alt="[Пример Логотипа 3]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 3</h3>
+                </div>
+                <div class="logo-item">
+                    <img src="https://i.imgur.com/B8hDKlX.jpeg" alt="[Пример Логотипа 4]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 4</h3>
+                </div>
+                <div class="logo-item">
+                    <img src="https://i.imgur.com/HubI4zZ.jpeg" alt="[Пример Логотипа 5]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 5</h3>
+                </div>
+                <div class="logo-item">
+                    <img src="https://i.imgur.com/DLBTVF0.jpeg" alt="[Пример Логотипа 6]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 6</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/4atZRAq.jpeg" alt="[Пример Логотипа 7]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 7</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/9vhaz2U.jpeg" alt="[Пример Логотипа 8]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 8</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/FCXcPXG.jpeg" alt="[Пример Логотипа 9]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 9</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/loLuoK1.jpeg" alt="[Пример Логотипа 10]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 10</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/6zXKyST.jpeg" alt="[Пример Логотипа 11]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 11</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/mfeLQad.jpeg" alt="[Пример Логотипа 12]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 12</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/rsiHLLz.jpeg" alt="[Пример Логотипа 13]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 13</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/iHyIbYK.jpeg" alt="[Пример Логотипа 14]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 14</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/tc11NWN.jpeg" alt="[Пример Логотипа 15]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 15</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/9FQ8NIG.jpeg" alt="[Пример Логотипа 16]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 16</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/mAuIJ3o.jpeg" alt="[Пример Логотипа 17]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 17</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/majyUG6.jpeg" alt="[Пример Логотипа 18]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 18</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/GxEkZfr.jpeg" alt="[Пример Логотипа 19]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 19</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/FaYDilV.jpeg" alt="[Пример Логотипа 20]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 20</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/04Jtb6N.jpeg" alt="[Пример Логотипа 21]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 21</h3>
+                </div>
+                 <div class="logo-item">
+                    <img src="https://i.imgur.com/mTeKJud.jpeg" alt="[Пример Логотипа 22]" class="logo-image" onerror="handleImageError(this)">
+                    <h3 class="text-lg font-semibold mt-2">Логотип 22</h3>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <a href="main_site.html" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block shadow-lg hover:shadow-xl">
+                    Вернуться на главную
+                </a>
+            </div>
+        </section>
+        <section class="bg-white rounded-lg shadow-lg p-6 mt-8">
+            <p class="text-center text-gray-700">
+                Это лишь некоторые примеры моих работ. Больше логотипов вы можете увидеть в моем портфолио на
+                <a href="https://www.instagram.com/logopulp/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Instagram</a>. </p>
+        </section>
+    </main>
+
+    <footer class="bg-white bg-opacity-80 py-4 shadow-md rounded-t-lg mt-8">
+        <div class="container mx-auto px-4 text-center text-gray-700">
+            &copy; 2025 LogoPulp. Все права защищены.
+        </div>
+    </footer>
+
+    <div id="fullscreen-overlay">
+        <div id="enlarged-image-container">
+            <img id="enlarged-image" src="" alt="Увеличенное изображение">
+            <span id="close-button">&times;</span>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle image loading errors
+        function handleImageError(img) {
+            console.error('Failed to load image:', img.src);
+            // Optional: Replace with a placeholder or add a class
+            img.src = 'https://placehold.co/300x300/cccccc/ffffff?text=Ошибка'; // Fallback placeholder
+            img.alt = 'Не удалось загрузить изображение';
+            img.dataset.failed = 'true'; // Mark as failed for CSS styling
+            // Prevent the click listener from activating on broken images
+            img.removeEventListener('click', openFullscreen);
+        }
+
+        // Wait for the window to fully load (including styles, images, etc.)
+        window.onload = function() {
+            const preloader = document.getElementById('preloader');
+            // Add the 'hidden' class to start the CSS transition for fading out
+            preloader.classList.add('hidden');
+
+            // Add error handlers to all logo images after the page loads
+            // This ensures the onerror attribute works correctly
+            document.querySelectorAll('.logo-image').forEach(img => {
+                // Double-check if the image is already broken before adding the listener
+                if (img.naturalWidth === 0 && img.naturalHeight === 0 && !img.complete) {
+                     // It might already be broken or hasn't loaded yet, onerror will handle it
+                } else if (img.complete && (img.naturalWidth === 0 || img.naturalHeight === 0)) {
+                    // If it's complete but has no dimensions, it's broken
+                    handleImageError(img);
+                }
+                // The onerror attribute handles errors during loading
+            });
+        }
+
+        // --- Script for fullscreen image viewer ---
+        const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+        const enlargedImage = document.getElementById('enlarged-image');
+        const closeButton = document.getElementById('close-button');
+        const clickableImages = document.querySelectorAll('.logo-grid .logo-image'); // Select only images in the grid
+
+        // Function to open the fullscreen view
+        function openFullscreen() {
+             // Check if the image failed to load before opening
+            if (this.dataset.failed === 'true') {
+                return; // Don't open overlay for broken images
+            }
+            enlargedImage.src = this.src;
+            enlargedImage.alt = this.alt.replace('[Пример', 'Увеличенный вид'); // Update alt text
+            fullscreenOverlay.classList.add('visible');
+            // Reset scale before showing, then animate
+            enlargedImage.style.transform = 'scale(0.75)';
+            requestAnimationFrame(() => { // Use requestAnimationFrame for smoother transition start
+                 requestAnimationFrame(() => {
+                     enlargedImage.style.transform = 'scale(1)';
+                 });
+            });
+        }
+
+        // Function to close the fullscreen view
+        function closeOverlay() {
+            enlargedImage.style.transform = 'scale(0.75)';
+            // Listen for the transition to end before hiding the overlay
+            enlargedImage.addEventListener('transitionend', () => {
+                fullscreenOverlay.classList.remove('visible');
+                enlargedImage.src = ""; // Clear src to free memory
+                enlargedImage.alt = "Увеличенное изображение";
+            }, { once: true }); // Remove listener after it runs once
+        }
+
+        // Add click listeners to images
+        clickableImages.forEach(image => {
+            // Only add listener if the image hasn't failed
+             if (image.dataset.failed !== 'true') {
+                image.addEventListener('click', openFullscreen);
+             }
+        });
+
+        // Add listeners for closing the overlay
+        closeButton.addEventListener('click', closeOverlay);
+        fullscreenOverlay.addEventListener('click', function(event) {
+            // Close only if clicking on the background overlay itself
+            if (event.target === fullscreenOverlay) {
+                closeOverlay();
+            }
+        });
+
+        // Optional: Close overlay with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && fullscreenOverlay.classList.contains('visible')) {
+                closeOverlay();
+            }
+        });
+        // --- End of Fullscreen Image Viewer Script ---
+    </script>
+</body>
+</html>
