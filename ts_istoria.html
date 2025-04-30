@@ -9,7 +9,9 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"/>
 <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -17,6 +19,7 @@
             margin: 0;
             padding: 0;
             position: relative;
+            overflow-x: hidden;
         }
 
         .background-container {
@@ -31,175 +34,326 @@
             background-attachment: fixed;
             filter: blur(5px);
             z-index: -1;
+            animation: pulseBg 10s infinite alternate;
         }
 
+        @keyframes pulseBg {
+            0% { filter: blur(5px) brightness(1); }
+            50% { filter: blur(7px) brightness(1.2); }
+            100% { filter: blur(5px) brightness(1); }
+        }
 
         .gradient-bg {
-            background: none;
+            background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .magic-title {
-            background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-            color: #fff;
+            filter: drop-shadow(0 2px 10px rgba(255,255,255,0.3));
+            text-shadow: 0 0 15px rgba(255,255,255,0.5);
+            animation: titleGlow 3s infinite alternate;
         }
 
-         .header-logo-icon {
-             display: inline-block;
-             vertical-align: middle;
-             margin-right: 8px;
-             width: 32px;
-             height: 32px;
-             border-radius: 50%;
-             object-fit: cover;
-         }
+        @keyframes titleGlow {
+            0% { filter: drop-shadow(0 2px 10px rgba(255,255,255,0.3)); }
+            100% { filter: drop-shadow(0 2px 15px rgba(255,255,255,0.7)); }
+        }
 
-         .logo-icon {
-             display: inline-block;
-             vertical-align: middle;
-             margin-left: 8px;
-             width: 32px;
-             height: 32px;
-             border-radius: 50%;
-             object-fit: cover;
-         }
+        .header-logo-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(255,255,255,0.7);
+            animation: spinLogo 10s linear infinite;
+        }
 
+        @keyframes spinLogo {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-         .ts-clickable {
-             cursor: pointer;
-             display: inline-block;
-             transition: transform 0.2s ease-in-out;
-             position: relative;
-         }
+        .logo-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 12px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(255,255,255,0.7);
+            transition: transform 0.3s;
+        }
 
-         .magic-title .ts-clickable {
-             -webkit-text-fill-color: #ffff00;
-             color: #ffff00;
-             filter: drop-shadow(0 0 5px rgba(255,255,0,0.8));
-         }
+        .logo-icon:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
 
-         .ts-clickable:hover {
-             transform: scale(1.1);
-         }
+        .ts-clickable {
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            font-size: 1.2em;
+            animation: bounce 2s infinite;
+        }
 
-         .animated-image {
-             position: absolute;
-             bottom: 70%;
-             left: 50%;
-             transform: translate(-50%, 10%) scale(0.5);
-             width: 100px;
-             height: auto;
-             pointer-events: none;
-             opacity: 0;
-             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-             z-index: 10;
-         }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
 
-         .animated-image.visible {
-             opacity: 1;
-             transform: translate(-50%, -30%) scale(1);
-         }
+        .magic-title .ts-clickable {
+            -webkit-text-fill-color: #ffff00;
+            color: #ffff00;
+            text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
+            filter: drop-shadow(0 0 8px rgba(255,255,0,0.8));
+        }
+
+        .ts-clickable:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .animated-image {
+            position: absolute;
+            bottom: 70%;
+            left: 50%;
+            transform: translate(-50%, 10%) scale(0.5);
+            width: 120px;
+            height: auto;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            z-index: 10;
+            filter: drop-shadow(0 0 15px gold);
+        }
+
+        .animated-image.visible {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+            animation: pulseAndRotate 2s infinite alternate;
+        }
+
+        @keyframes pulseAndRotate {
+            0% { transform: translate(-50%, -50%) scale(1) rotate(-5deg); filter: drop-shadow(0 0 15px gold); }
+            100% { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); filter: drop-shadow(0 0 25px yellow); }
+        }
 
         .project-image {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
             cursor: pointer;
-            transition: transform 0.2s ease-in-out;
+            transition: all 0.3s ease-in-out;
+            border: 3px solid transparent;
         }
 
         .project-image:hover {
-             transform: scale(1.05);
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+            border: 3px solid #ffff00;
         }
 
+        .team-member-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+            display: inline-block;
+            vertical-align: middle;
+            border: 2px solid white;
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
 
-         .team-member-image {
-             width: 40px;
-             height: 40px;
-             border-radius: 50%;
-             object-fit: cover;
-             margin-right: 8px;
-             display: inline-block;
-             vertical-align: middle;
-         }
+        .team-member-image:hover {
+            transform: scale(1.2);
+            border: 2px solid #ffff00;
+            box-shadow: 0 0 20px rgba(255,255,0,0.7);
+        }
 
-         .dii-container {
-             position: relative;
-             display: inline-block;
-         }
+        .dii-container {
+            position: relative;
+            display: inline-block;
+        }
 
-         .dii-clickable {
-             cursor: pointer;
-             color: #ffff00;
-             font-weight: bold;
-         }
+        .dii-clickable {
+            cursor: pointer;
+            color: #ffff00;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,255,0,0.8);
+            transition: all 0.3s ease;
+        }
 
-         .dii-image {
-             position: absolute;
-             bottom: 100%;
-             left: 50%;
-             transform: translateX(-50%);
-             width: 80px;
-             height: 80px;
-             border-radius: 50%;
-             object-fit: cover;
-             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-             opacity: 0;
-             visibility: hidden;
-             transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-             z-index: 10;
-         }
+        .dii-clickable:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 15px rgba(255,255,0,1);
+        }
 
-         .dii-image.visible {
-             opacity: 1;
-             visibility: visible;
-         }
+        .dii-image {
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%) scale(0.5);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease-in-out;
+            z-index: 10;
+            border: 3px solid gold;
+        }
 
-         .team-link {
+        .dii-image.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) scale(1);
+            animation: rotateDii 10s linear infinite;
+        }
+
+        @keyframes rotateDii {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        .team-link {
             color: #ffffff;
             text-decoration: none;
-            transition: color 0.3s ease;
-         }
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0 5px;
+        }
 
-         .team-link:hover {
+        .team-link:hover {
             color: #ffff00;
-            text-decoration: underline;
-         }
+            text-decoration: none;
+        }
 
-         .bg-white {
-             background-color: rgba(255, 255, 255, 0.8);
-             backdrop-filter: blur(5px);
-         }
+        .team-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #ffff00;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
 
-         .bg-white h3, .bg-white h4, .bg-white p, .bg-white ul, .bg-white li {
-             color: #333;
-         }
+        .team-link:hover::after {
+            visibility: visible;
+            width: 100%;
+        }
 
-         .bg-white a {
-             color: #0000ff;
-         }
+        .bg-white {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(138, 43, 226, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-         .bg-white a:hover {
-             text-decoration: underline;
-         }
+        .bg-white:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(138, 43, 226, 0.5);
+        }
 
-         .bg-purple-600 {
-             background-color: #a020f0;
-         }
+        .bg-white h3, .bg-white h4 {
+            color: #5a189a;
+            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+            padding-bottom: 8px;
+        }
 
-         .hover\:bg-purple-700:hover {
-             background-color: #8a2be2;
-         }
+        .bg-white p, .bg-white ul, .bg-white li {
+            color: #333;
+        }
 
+        .bg-white a {
+            color: #8a2be2;
+            font-weight: bold;
+            transition: all 0.3s;
+            position: relative;
+        }
 
+        .bg-white a:hover {
+            color: #5a189a;
+        }
+
+        .bg-white a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #8a2be2;
+            transition: all 0.3s ease;
+        }
+
+        .bg-white a:hover::after {
+            width: 100%;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            font-weight: bold;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(142, 68, 173, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(142, 68, 173, 0.6);
+        }
+
+        .back-button:active {
+            transform: translateY(1px);
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s;
+            z-index: -1;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
 
         .logo-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            gap: 15px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         .logo-grid .project-image {
@@ -207,6 +361,13 @@
             height: auto;
             max-width: none;
             margin-bottom: 0;
+            transform: translateZ(0);
+            transition: all 0.4s ease;
+        }
+
+        .logo-grid .project-image:hover {
+            transform: translateZ(20px) scale(1.05);
+            z-index: 5;
         }
 
         #fullscreen-overlay {
@@ -215,14 +376,14 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.75);
+            background-color: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 50;
+            z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         #fullscreen-overlay.visible {
@@ -242,139 +403,437 @@
         #enlarged-image {
             display: block;
             max-width: 100%;
-            max-height: 100%;
+            max-height: 90vh;
             object-fit: contain;
             transform: scale(0.75);
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 5px;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         #fullscreen-overlay.visible #enlarged-image {
             transform: scale(1);
         }
 
-
         #close-button {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: -40px;
+            right: 0;
             color: white;
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
             line-height: 1;
-            z-index: 51;
-            transition: background-color 0.2s ease-in-out;
+            z-index: 1001;
+            transition: all 0.3s ease;
         }
 
         #close-button:hover {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(255, 0, 0, 0.8);
+            transform: scale(1.1) rotate(90deg);
         }
 
+        #preloader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            visibility: visible;
+            transition: all 0.8s ease-out;
+        }
 
-#preloader {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    background: #f7f7f7;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-}
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
 
-#preloader.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.loader-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        .loader {
+            display: inline-block;
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
 
-.loader {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-}
+        .circle {
+            position: absolute;
+            border: 4px solid transparent;
+            border-radius: 50%;
+            animation: rotate 1.5s linear infinite;
+        }
 
-.circle {
-    position: absolute;
-    border: 4px solid transparent;
-    border-radius: 50%;
-    animation: rotate 1.5s linear infinite;
-}
+        .circle-1 {
+            width: 100px;
+            height: 100px;
+            border-top-color: #9b59b6;
+            animation-duration: 2s;
+        }
 
-.circle-1 {
-    width: 80px;
-    height: 80px;
-    border-top-color: #3498db;
-    animation-duration: 2s;
-}
+        .circle-2 {
+            width: 80px;
+            height: 80px;
+            top: 10px;
+            left: 10px;
+            border-right-color: #e74c3c;
+            animation-duration: 1.8s;
+            animation-direction: reverse;
+        }
 
-.circle-2 {
-    width: 60px;
-    height: 60px;
-    top: 10px;
-    left: 10px;
-    border-right-color: #e74c3c;
-    animation-duration: 1.8s;
-    animation-direction: reverse;
-}
+        .circle-3 {
+            width: 60px;
+            height: 60px;
+            top: 20px;
+            left: 20px;
+            border-bottom-color: #2ecc71;
+            animation-duration: 1.6s;
+        }
 
-.circle-3 {
-    width: 40px;
-    height: 40px;
-    top: 20px;
-    left: 20px;
-    border-bottom-color: #2ecc71;
-    animation-duration: 1.6s;
-}
+        .loading-text {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #fff;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out infinite alternate;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
 
-.loading-text {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #333;
-    letter-spacing: 1px;
-    opacity: 0;
-    animation: fadeIn 1.5s ease-in-out infinite alternate;
-}
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
+        @keyframes fadeIn {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
 
-@keyframes fadeIn {
-    0% {
-        opacity: 0.2;
-    }
-    100% {
-        opacity: 1;
-    }
-}
+        .team-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            display: flex;
+            align-items: center;
+            border-left: 5px solid #8a2be2;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .team-info {
+            flex-grow: 1;
+        }
+
+        .team-title {
+            font-weight: bold;
+            color: #5a189a;
+            margin-bottom: 5px;
+        }
+
+        .team-nickname {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .section-heading {
+            position: relative;
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .section-heading:hover {
+            transform: translateY(-3px);
+            box-shadow: 8px 20px rgba(142, 68, 173, 0.6);
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(255, 255, 0, 0.2) 0%, rgba(255, 255, 0, 0.5) 100%);
+            padding: 0 5px;
+            border-radius: 3px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .float-icon {
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .glow-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 100%;
+            background: linear-gradient(to right, transparent, #9b59b6, transparent);
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .gallery-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .gallery-container:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .float-effect {
+            animation: floatElement 5s ease-in-out infinite;
+        }
+
+        @keyframes floatElement {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(1deg); }
+            75% { transform: translateY(5px) rotate(-1deg); }
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(142, 68, 173, 0.6);
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #9b59b6;
+            border: 4px solid #8e44ad;
+            border-radius: 50%;
+            z-index: 1;
+            top: 15px;
+            box-shadow: 0 0 10px rgba(142, 68, 173, 0.8);
+        }
+
+        .timeline-left {
+            left: 0;
+        }
+
+        .timeline-right {
+            left: 50%;
+        }
+
+        .timeline-left::after {
+            right: -10px;
+        }
+
+        .timeline-right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .tabs-container {
+            margin: 20px 0;
+        }
+
+        .tabs-nav {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .tab-button.active {
+            background: #9b59b6;
+            color: white;
+            box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: rgba(155, 89, 182, 0.3);
+            color: #333;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0 10px 10px 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(155, 89, 182, 0.5);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+            box-shadow: 0 0 10px rgba(155, 89, 182, 0.8);
+        }
+
+        .custom-cursor.active {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(155, 89, 182, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-right {
+                left: 0;
+            }
+
+            .timeline-left::after, .timeline-right::after {
+                left: 15px;
+            }
+        }
 </style>
 </head>
 <body>
 <div class="background-container"></div>
+<div class="particles-container" id="particles-js"></div>
+<div class="custom-cursor" id="custom-cursor"></div>
 
 <div id="preloader">
 <div class="loader-container">
@@ -383,204 +842,511 @@
 <div class="circle circle-2"></div>
 <div class="circle circle-3"></div>
 </div>
-<div class="loading-text">Загрузка...</div>
+<div class="loading-text">Загрузка сайта...</div>
 </div>
 </div>
 
-<header class="gradient-bg text-white shadow-md">
+<header class="gradient-bg text-white shadow-md sticky top-0 z-30">
 <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
 <h1 class="text-3xl font-bold flex items-center">
 <img alt="[Иконка LogoPulp]" class="header-logo-icon" src="https://i.imgur.com/jq47Okf.png"/>
 <a class="hover:text-gray-200 transition duration-300" href="main_site.html">LogoPulp</a>
 <img alt="[GIF проекта TS]" class="logo-icon" src="https://i.imgur.com/kEL2XqB.gif"/>
 </h1>
+<div class="hidden md:flex items-center space-x-6">
+    <a href="#about" class="text-white hover:text-yellow-300 transition-all transform hover:scale-110">О проекте</a>
+    <a href="#team" class="text-white hover:text-yellow-300 transition-all transform hover:scale-110">Команда</a>
+    <a href="#portfolio" class="text-white hover:text-yellow-300 transition-all transform hover:scale-110">Портфолио</a>
+    <a href="#timeline" class="text-white hover:text-yellow-300 transition-all transform hover:scale-110">Хронология</a>
+</div>
+<div class="md:hidden">
+    <button id="menu-toggle" class="text-white focus:outline-none">
+        <i class="fas fa-bars text-2xl"></i>
+    </button>
+</div>
 </nav>
+<div id="mobile-menu" class="md:hidden hidden bg-purple-800 py-4 px-6 shadow-lg">
+    <div class="flex flex-col space-y-4">
+        <a href="#about" class="text-white hover:text-yellow-300 transition-all transform hover:scale-110">О проекте</a>
+        <a href="#team" class="text-white hover:text-yellow-300 transition-all transform hover:scale-110">Команда</a>
+        <a href="#portfolio" class="text-white hover:text-yellow-300 transition-all transform hover:scale-110">Портфолио</a>
+        <a href="#timeline" class="text-white hover:text-yellow-300 transition-all transform hover:scale-110">Хронология</a>
+    </div>
+</div>
 </header>
+
 <main class="container mx-auto px-6 py-12">
-<section class="mb-12">
+<section class="mb-12" data-aos="fade-up" data-aos-duration="1000">
 <h2 class="text-4xl font-bold text-center mb-8 magic-title">История проекта <span class="ts-clickable" id="ts-trigger" style="position: relative;">TS
                 <img alt="[Анимированное изображение TS]" class="animated-image" id="ts-animated-image" src="https://i.imgur.com/EcNPSHR.png"/>
 </span></h2>
-<div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
-<p class="text-lg mb-6">
-                    Проект TS - это важная часть моего профессионального пути. Я выполнял роль дизайнера для этого проекта с <strong class="text-purple-700">2022 по 2024 год</strong>.
-                </p>
-<h3 class="text-2xl font-bold mb-4">О проекте:</h3>
-<p class="mb-6">
-                    За время моего участия, я занимался созданием различных визуальных материалов, которые помогали проекту развиваться и привлекать внимание аудитории.
-                </p>
-<h3 class="text-2xl font-bold mb-4">О проекте Terraria.by:</h3>
-<p class="mb-6">
-<a class="text-blue-600 hover:underline" href="http://terraria.by/" rel="noopener noreferrer" target="_blank">Terraria.by</a> является основным проектом, позиционируется как лучший сервер Terraria со всеми вещами, боссами и PvP.
-                </p>
-<h3 class="text-2xl font-bold mb-4">О проекте Terraria Survival:</h3>
-<p class="mb-6">
-                    "Terraria Survival" - это второй проект, популярный русскоязычный сервер Terraria в режиме выживания с экономикой, PvE, PvP и TShock.
-                </p>
-<h4 class="text-xl font-bold mb-4">Сообщество Terraria Survival:</h4>
-<ul class="list-disc list-inside mb-6">
-<li>
-<a class="text-blue-600 hover:underline" href="https://vk.com/terrariasurvival" rel="noopener noreferrer" target="_blank">
-                            VK: Terraria Survival
-                        </a>
-</li>
-<li>
-<a class="text-blue-600 hover:underline" href="https://discord.gg/ebTvRmDNMf" rel="noopener noreferrer" target="_blank">
-                             Discord: Terraria Survival
-                        </a>
-</li>
-<li>
-<a class="text-blue-600 hover:underline" href="https://vk.com/terraria_by" rel="noopener noreferrer" target="_blank">
-                             VK: Terraria.by
-                        </a>
-</li>
-</ul>
-<h3 class="text-2xl font-bold mb-4">Состав команды:</h3>
-<div class="mb-6">
-<p>
-                        Владелец проекта
-                        <span class="dii-container"> <span class="dii-clickable" id="dii-trigger">Dii</span> <a class="team-link" href="https://discordapp.com/users/372367385778323467" rel="noopener noreferrer" target="_blank"> (@terrariaservers)
+
+<div class="tabs-container">
+    <div class="tabs-nav">
+        <button class="tab-button active" data-tab="about">О проекте</button>
+        <button class="tab-button" data-tab="team">Команда</button>
+        <button class="tab-button" data-tab="portfolio">Портфолио</button>
+        <button class="tab-button" data-tab="timeline">Хронология</button>
+    </div>
+
+    <div id="about" class="tab-content active">
+        <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <div class="float-effect">
+                <span class="section-heading"><i class="fas fa-info-circle mr-2"></i>О проекте</span>
+                <div class="glow-line"></div>
+            </div>
+            <p class="text-lg mb-6">
+                Проект TS - это важная часть моего профессионального пути. Я выполнял роль дизайнера для этого проекта с <span class="highlight">2022 по 2024 год</span>. За это время я создал десятки уникальных визуальных материалов, которые помогли проекту выделиться среди конкурентов.
+                <i class="fas fa-magic float-icon text-purple-600"></i>
+            </p>
+            <h3 class="text-2xl font-bold mb-4">Особенности проекта:</h3>
+            <div class="flex flex-wrap -mx-2">
+                <div class="w-full md:w-1/2 px-2 mb-4" data-aos="fade-right" data-aos-delay="300">
+                    <div class="bg-gray-100 p-4 rounded-lg h-full shadow-md hover:shadow-lg transition-all transform hover:scale-105 border-l-4 border-purple-600">
+                        <h4 class="text-xl font-bold mb-3 flex items-center">
+                            <i class="fas fa-server text-purple-600 mr-2"></i> Terraria.by
+                        </h4>
+                        <p>
+                            <a class="text-blue-600 hover:underline" href="http://terraria.by/" rel="noopener noreferrer" target="_blank">Terraria.by</a> является основным проектом, позиционируется как лучший сервер Terraria со всеми вещами, боссами и PvP.
+                        </p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 px-2 mb-4" data-aos="fade-left" data-aos-delay="400">
+                    <div class="bg-gray-100 p-4 rounded-lg h-full shadow-md hover:shadow-lg transition-all transform hover:scale-105 border-l-4 border-purple-600">
+                        <h4 class="text-xl font-bold mb-3 flex items-center">
+                            <i class="fas fa-gamepad text-purple-600 mr-2"></i> Terraria Survival
+                        </h4>
+                        <p>
+                            "Terraria Survival" - это второй проект, популярный русскоязычный сервер Terraria в режиме выживания с экономикой, PvE, PvP и TShock.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="text-xl font-bold mb-4 mt-6">Сообщество Terraria Survival:</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <a class="flex items-center bg-gray-100 p-4 rounded-lg transform hover:scale-105 transition-all hover:bg-purple-100" href="https://vk.com/terrariasurvival" rel="noopener noreferrer" target="_blank">
+                    <i class="fab fa-vk text-2xl text-blue-600 mr-3"></i>
+                    <span>Terraria Survival</span>
+                </a>
+                <a class="flex items-center bg-gray-100 p-4 rounded-lg transform hover:scale-105 transition-all hover:bg-purple-100" href="https://discord.gg/ebTvRmDNMf" rel="noopener noreferrer" target="_blank">
+                    <i class="fab fa-discord text-2xl text-indigo-600 mr-3"></i>
+                    <span>Discord: TS</span>
+                </a>
+                <a class="flex items-center bg-gray-100 p-4 rounded-lg transform hover:scale-105 transition-all hover:bg-purple-100" href="https://vk.com/terraria_by" rel="noopener noreferrer" target="_blank">
+                    <i class="fab fa-vk text-2xl text-blue-600 mr-3"></i>
+                    <span>Terraria.by</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="team" class="tab-content">
+        <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <div class="float-effect">
+                <span class="section-heading"><i class="fas fa-users mr-2"></i>Команда проекта</span>
+                <div class="glow-line"></div>
+            </div>
+
+            <div class="team-cards mt-6">
+                <div class="team-card" data-aos="fade-right" data-aos-delay="300">
+                    <div class="dii-container">
+                        <img alt="[Изображение Dii]" class="team-member-image" src="https://cdn.discordapp.com/avatars/372367385778323467/157fa10764a9e33fd7e8cf18a130ae81.png?size=2048"/>
+                        <img alt="[Изображение Dii]" class="dii-image" id="dii-image" src="https://cdn.discordapp.com/avatars/372367385778323467/157fa10764a9e33fd7e8cf18a130ae81.png?size=2048"/>
+                    </div>
+                    <div class="team-info">
+                        <div class="team-title">Владелец проекта <span class="dii-clickable" id="dii-trigger">Dii</span></div>
+                        <div class="team-nickname">
+                            <a class="team-link" href="https://discordapp.com/users/372367385778323467" rel="noopener noreferrer" target="_blank">
+                                <i class="fab fa-discord mr-1"></i> @terrariaservers
                             </a>
-<img alt="[Изображение Dii]" class="dii-image" id="dii-image" src="https://cdn.discordapp.com/avatars/372367385778323467/157fa10764a9e33fd7e8cf18a130ae81.png?size=2048"/> </span>
-</p>
-<p>
-                        Управляющий стафф:
-                    </p>
-<ul class="list-disc list-inside ml-4">
-<li>
-<img alt="[Изображение oli]" class="team-member-image" src="https://cdn.discordapp.com/avatars/629741797102452736/7fd160013bcff48ac6fcdad4e62be890.png?size=2048"/>
-                            Руководитель проекта oli
+                        </div>
+                    </div>
+                    <div class="badge bg-purple-600 text-white px-3 py-1 rounded-full text-xs">Основатель</div>
+                </div>
+
+                <h4 class="text-xl font-bold mt-6 mb-4">Управляющий стафф:</h4>
+
+                <div class="team-card" data-aos="fade-left" data-aos-delay="400">
+                    <img alt="[Изображение oli]" class="team-member-image" src="https://cdn.discordapp.com/avatars/629741797102452736/7fd160013bcff48ac6fcdad4e62be890.png?size=2048"/>
+                    <div class="team-info">
+                        <div class="team-title">Руководитель проекта oli</div>
+                        <div class="team-nickname">
                             <a class="team-link" href="https://discordapp.com/users/629741797102452736" rel="noopener noreferrer" target="_blank">
-                                ($ssykesss)
+                                <i class="fab fa-discord mr-1"></i> $ssykesss
                             </a>
-</li>
-<li>
-<img alt="[Изображение ✞ DaniNam ✞]" class="team-member-image" src="https://cdn.discordapp.com/avatars/416620125479895040/37db0f8b4b43b99b8eab721fef297a8c.png?size=2048"/>
-                             Менеджер: ✞ DaniNam ✞
-                             <a class="team-link" href="https://discordapp.com/users/416620125479895040" rel="noopener noreferrer" target="_blank">
-                                 (@daninam)
-                             </a>
-</li>
-<li>
-<img alt="[Изображение Dfff]" class="team-member-image" src="https://cdn.discordapp.com/avatars/801464063598788628/b9b65542c87604f9d715f3aca2577b6b.png?size=2048"/>
-                            Менеджер: Dfff
+                        </div>
+                    </div>
+                    <div class="badge bg-blue-600 text-white px-3 py-1 rounded-full text-xs">Руководитель</div>
+                </div>
+
+                <div class="team-card" data-aos="fade-right" data-aos-delay="500">
+                    <img alt="[Изображение ✞ DaniNam ✞]" class="team-member-image" src="https://cdn.discordapp.com/avatars/416620125479895040/37db0f8b4b43b99b8eab721fef297a8c.png?size=2048"/>
+                    <div class="team-info">
+                        <div class="team-title">Менеджер: ✞ DaniNam ✞</div>
+                        <div class="team-nickname">
+                            <a class="team-link" href="https://discordapp.com/users/416620125479895040" rel="noopener noreferrer" target="_blank">
+                                <i class="fab fa-discord mr-1"></i> @daninam
+                            </a>
+                        </div>
+                    </div>
+                    <div class="badge bg-green-600 text-white px-3 py-1 rounded-full text-xs">Менеджер</div>
+                </div>
+
+                <div class="team-card" data-aos="fade-left" data-aos-delay="600">
+                    <img alt="[Изображение Dfff]" class="team-member-image" src="https://cdn.discordapp.com/avatars/801464063598788628/b9b65542c87604f9d715f3aca2577b6b.png?size=2048"/>
+                    <div class="team-info">
+                        <div class="team-title">Менеджер: Dfff</div>
+                        <div class="team-nickname">
                             <a class="team-link" href="https://discordapp.com/users/801464063598788628" rel="noopener noreferrer" target="_blank">
-                                (@Dfff.)
+                                <i class="fab fa-discord mr-1"></i> @Dfff.
                             </a>
-</li>
-<li>
-<img alt="[Изображение Chel.]" class="team-member-image" src="https://cdn.discordapp.com/avatars/406816658007523329/c95cc87f8d01976fee6d23bde7351447.png?size=2048"/>
-                            Менеджер: Chel.
+                        </div>
+                    </div>
+                    <div class="badge bg-green-600 text-white px-3 py-1 rounded-full text-xs">Менеджер</div>
+                </div>
+
+                <div class="team-card" data-aos="fade-right" data-aos-delay="700">
+                    <img alt="[Изображение Chel.]" class="team-member-image" src="https://cdn.discordapp.com/avatars/406816658007523329/c95cc87f8d01976fee6d23bde7351447.png?size=2048"/>
+                    <div class="team-info">
+                        <div class="team-title">Менеджер: Chel.</div>
+                        <div class="team-nickname">
                             <a class="team-link" href="https://discordapp.com/users/406816658007523329" rel="noopener noreferrer" target="_blank">
-                                (@chell.co)
+                                <i class="fab fa-discord mr-1"></i> @chell.co
                             </a>
-</li>
-</ul>
+                        </div>
+                    </div>
+                    <div class="badge bg-green-600 text-white px-3 py-1 rounded-full text-xs">Менеджер</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="portfolio" class="tab-content">
+        <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <div class="float-effect">
+                <span class="section-heading"><i class="fas fa-paint-brush mr-2"></i>Мои работы для TS</span>
+                <div class="glow-line"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6 mt-6">
+                <div>
+                    <h4 class="text-xl font-semibold mb-3 flex items-center">
+                        <i class="fas fa-image text-purple-600 mr-2"></i> Баннеры:
+                    </h4>
+                    <div class="gallery-container" data-aos="zoom-in" data-aos-delay="300">
+                        <img alt="Баннер проекта TS 1" class="project-image mb-4" src="https://i.imgur.com/xrphuZ7.png"/>
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-container" data-aos="zoom-in" data-aos-delay="400">
+                        <img alt="Баннер проекта TS 2" class="project-image mb-4" src="https://i.imgur.com/ern9vER.jpeg"/>
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-container" data-aos="zoom-in" data-aos-delay="500">
+                        <img alt="Баннер проекта TS 3" class="project-image" src="https://i.imgur.com/24uMSyt.png"/>
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus text-3xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-3 flex items-center">
+                        <i class="fas fa-palette text-purple-600 mr-2"></i> Логотипы:
+                    </h4>
+                    <div class="logo-grid">
+                        <div class="gallery-container" data-aos="zoom-in" data-aos-delay="300">
+                            <img alt="Логотип проекта TS 1" class="project-image" src="https://i.imgur.com/BCSdLDo.gif"/>
+                            <div class="gallery-overlay">
+                                <i class="fas fa-search-plus text-3xl"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-container" data-aos="zoom-in" data-aos-delay="400">
+                            <img alt="Логотип проекта TS 2" class="project-image" src="https://i.imgur.com/9HoKqoR.jpeg"/>
+                            <div class="gallery-overlay">
+                                <i class="fas fa-search-plus text-3xl"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-container" data-aos="zoom-in" data-aos-delay="500">
+                            <img alt="Логотип проекта TS 3" class="project-image" src="https://i.imgur.com/DEk2YWj.gif"/>
+                            <div class="gallery-overlay">
+                                <i class="fas fa-search-plus text-3xl"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-container" data-aos="zoom-in" data-aos-delay="600">
+                            <img alt="Логотип проекта TS 4" class="project-image" src="https://i.imgur.com/V8rVr2K.gif"/>
+                            <div class="gallery-overlay">
+                                <i class="fas fa-search-plus text-3xl"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-container" data-aos="zoom-in" data-aos-delay="700">
+                            <img alt="Логотип проекта TS 5" class="project-image" src="https://i.imgur.com/kEL2XqB.gif"/>
+                            <div class="gallery-overlay">
+                                <i class="fas fa-search-plus text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="timeline" class="tab-content">
+        <div class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <div class="float-effect">
+                <span class="section-heading"><i class="fas fa-history mr-2"></i>Хронология проекта</span>
+                <div class="glow-line"></div>
+            </div>
+
+            <div class="timeline mt-8">
+                <div class="timeline-item timeline-left" data-aos="fade-right" data-aos-delay="300">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2">Начало сотрудничества</h3>
+                        <span class="text-sm text-gray-500">Январь 2022</span>
+                        <p class="mt-2">Первые шаги в разработке визуальной идентичности проекта TS. Создание первых логотипов и баннеров.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right" data-aos="fade-left" data-aos-delay="400">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2">Расширение проекта</h3>
+                        <span class="text-sm text-gray-500">Июнь 2022</span>
+                        <p class="mt-2">Разработка уникального стиля для проекта Terraria.by. Создание серии анимированных логотипов.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-left" data-aos="fade-right" data-aos-delay="500">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2">Запуск Terraria Survival</h3>
+                        <span class="text-sm text-gray-500">Март 2023</span>
+                        <p class="mt-2">Разработка уникальной айдентики для второго проекта команды - Terraria Survival.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right" data-aos="fade-left" data-aos-delay="600">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2">Обновление визуального стиля</h3>
+                        <span class="text-sm text-gray-500">Январь 2024</span>
+                        <p class="mt-2">Редизайн всех визуальных материалов проекта, создание единого стиля для всей линейки проекта TS.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<h3 class="text-2xl font-bold mb-4">Мои работы для TS:</h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-<div>
-<h4 class="text-xl font-semibold mb-3">Баннеры:</h4>
-<img alt="Баннер проекта TS 1" class="project-image mb-4" src="https://i.imgur.com/xrphuZ7.png"/>
-<img alt="Баннер проекта TS 2" class="project-image mb-4" src="https://i.imgur.com/ern9vER.jpeg"/>
-<img alt="Баннер проекта TS 3" class="project-image" src="https://i.imgur.com/24uMSyt.png"/>
-</div>
-<div>
-<h4 class="text-xl font-semibold mb-3">Логотипы:</h4>
-<div class="logo-grid">
-<img alt="Логотип проекта TS 1" class="project-image" src="https://i.imgur.com/BCSdLDo.gif"/>
-<img alt="Логотип проекта TS 2" class="project-image" src="https://i.imgur.com/9HoKqoR.jpeg"/>
-<img alt="Логотип проекта TS 3" class="project-image" src="https://i.imgur.com/DEk2YWj.gif"/>
-<img alt="Логотип проекта TS 4" class="project-image" src="https://i.imgur.com/V8rVr2K.gif"/>
-<img alt="Логотип проекта TS 5" class="project-image" src="https://i.imgur.com/kEL2XqB.gif"/>
-</div>
-</div>
-</div>
-<div class="text-center mt-8">
-<a class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block shadow-lg hover:shadow-xl" href="main_site.html">Вернуться на главную</a>
-</div>
+
+<div class="text-center mt-12" data-aos="zoom-in" data-aos-delay="200">
+<a class="back-button" href="main_site.html">
+    <i class="fas fa-home mr-2"></i> Вернуться на главную
+</a>
 </div>
 </section>
 </main>
-<footer class="gradient-bg text-white mt-16 py-6">
-<div class="container mx-auto px-6 text-center">
-<p>© 2025 LogoPulp. Все права защищены.</p>
-<p>Автор портфолио: Антон Сосновский</p>
+
+<footer class="gradient-bg text-white mt-16 py-8 relative">
+<div class="absolute top-0 left-0 w-full overflow-hidden">
+    <svg preserveAspectRatio="none" viewBox="0 0 1440 100" class="w-full h-16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,50 C320,120 420,0 1440,80 L1440,0 L0,0 Z" fill="#fff"></path>
+    </svg>
+</div>
+<div class="container mx-auto px-6 pt-8">
+    <div class="flex flex-wrap">
+        <div class="w-full md:w-1/3 mb-6 md:mb-0">
+            <h3 class="text-xl font-bold mb-4">LogoPulp</h3>
+            <p>Профессиональная разработка дизайна и визуальной идентичности для ваших проектов.</p>
+        </div>
+        <div class="w-full md:w-1/3 mb-6 md:mb-0">
+            <h3 class="text-xl font-bold mb-4">Ссылки</h3>
+            <ul class="space-y-2">
+                <li><a href="#about" class="hover:text-yellow-300 transition-all"><i class="fas fa-angle-right mr-2"></i>О проекте</a></li>
+                <li><a href="#team" class="hover:text-yellow-300 transition-all"><i class="fas fa-angle-right mr-2"></i>Команда</a></li>
+                <li><a href="#portfolio" class="hover:text-yellow-300 transition-all"><i class="fas fa-angle-right mr-2"></i>Портфолио</a></li>
+            </ul>
+        </div>
+        <div class="w-full md:w-1/3">
+            <h3 class="text-xl font-bold mb-4">Связаться с нами</h3>
+            <div class="flex space-x-4">
+                <a href="https://vk.com/logopulp" class="bg-white text-purple-700 p-2 rounded-full transform hover:scale-110 transition-all" target="_blank">
+                    <i class="fab fa-vk text-xl"></i>
+                </a>
+                <a href="https://www.instagram.com/logopulp/" class="bg-white text-purple-700 p-2 rounded-full transform hover:scale-110 transition-all" target="_blank">
+                    <i class="fab fa-instagram text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <hr class="border-gray-600 my-6">
+    <div class="text-center">
+        <p>© 2025 LogoPulp. Все права защищены.</p>
+        <p>Автор портфолио: <span class="text-yellow-300">Антон Сосновский</span></p>
+    </div>
 </div>
 </footer>
+
 <div id="fullscreen-overlay">
 <div id="enlarged-image-container">
 <img alt="Enlarged Image" id="enlarged-image" src=""/>
 <span id="close-button">×</span>
 </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
-        window.onload = function() {
-            const preloader = document.getElementById('preloader');
+    document.addEventListener('DOMContentLoaded', function() {
+        AOS.init();
+    });
+
+    window.onload = function() {
+        const preloader = document.getElementById('preloader');
+        setTimeout(function() {
             preloader.classList.add('hidden');
+        }, 1000);
+    }
+
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    const tsTrigger = document.getElementById('ts-trigger');
+    const animatedImage = document.getElementById('ts-animated-image');
+    let hideTimeout = null;
+
+    tsTrigger.addEventListener('click', function() {
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
         }
 
-        const tsTrigger = document.getElementById('ts-trigger');
-        const animatedImage = document.getElementById('ts-animated-image');
-        let hideTimeout = null;
+        animatedImage.classList.add('visible');
 
-        tsTrigger.addEventListener('click', function() {
-            if (hideTimeout) {
-                clearTimeout(hideTimeout);
-            }
+        hideTimeout = setTimeout(function() {
+            animatedImage.classList.remove('visible');
+        }, 5000);
+    });
 
-            animatedImage.classList.add('visible');
+    const diiTrigger = document.getElementById('dii-trigger');
+    const diiImage = document.getElementById('dii-image');
 
-            hideTimeout = setTimeout(function() {
-                animatedImage.classList.remove('visible');
+    diiTrigger.addEventListener('click', function() {
+        diiImage.classList.toggle('visible');
+
+        if (diiImage.classList.contains('visible')) {
+            setTimeout(function() {
+                diiImage.classList.remove('visible');
             }, 5000);
+        }
+    });
+
+    const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+    const enlargedImage = document.getElementById('enlarged-image');
+    const closeButton = document.getElementById('close-button');
+    const galleryContainers = document.querySelectorAll('.gallery-container');
+    const clickableImages = document.querySelectorAll('.project-image');
+
+    galleryContainers.forEach(container => {
+        container.addEventListener('click', function() {
+            const image = this.querySelector('.project-image');
+            enlargedImage.src = image.src;
+            fullscreenOverlay.classList.add('visible');
         });
+    });
 
-        const diiTrigger = document.getElementById('dii-trigger');
-        const diiImage = document.getElementById('dii-image');
-
-        diiTrigger.addEventListener('click', function() {
-            diiImage.classList.toggle('visible');
-        });
-
-
-        const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-        const enlargedImage = document.getElementById('enlarged-image');
-        const closeButton = document.getElementById('close-button');
-        const clickableImages = document.querySelectorAll('.project-image');
-
-        clickableImages.forEach(image => {
-            image.addEventListener('click', function() {
+    clickableImages.forEach(image => {
+        image.addEventListener('click', function() {
+            if (!this.closest('.gallery-container')) {
                 enlargedImage.src = this.src;
                 fullscreenOverlay.classList.add('visible');
-                enlargedImage.style.transform = 'scale(0.75)';
-                setTimeout(() => {
-                    enlargedImage.style.transform = 'scale(1)';
-                }, 10);
-            });
-        });
-
-        function closeOverlay() {
-            enlargedImage.style.transform = 'scale(0.75)';
-            fullscreenOverlay.classList.remove('visible');
-
-            enlargedImage.addEventListener('transitionend', function() {
-                 const style = window.getComputedStyle(enlargedImage);
-                 const matrix = new WebKitCSSMatrix(style.transform);
-                 if (matrix.m11 <= 0.75) {
-                     fullscreenOverlay.classList.remove('visible');
-                 }
-            }, { once: true });
-        }
-
-        closeButton.addEventListener('click', closeOverlay);
-
-        fullscreenOverlay.addEventListener('click', function(event) {
-            if (event.target === fullscreenOverlay) {
-                closeOverlay();
             }
         });
+    });
 
-    </script>
+    function closeOverlay() {
+        fullscreenOverlay.classList.remove('visible');
+    }
+
+    closeButton.addEventListener('click', closeOverlay);
+    fullscreenOverlay.addEventListener('click', function(event) {
+        if (event.target === fullscreenOverlay) {
+            closeOverlay();
+        }
+    });
+
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles-js');
+
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const size = Math.random() * 5 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+
+            const colors = ['#ff9900', '#ffffff', '#9b59b6', '#3498db'];
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+            particle.style.opacity = Math.random() * 0.6 + 0.2;
+
+            const duration = Math.random() * 20 + 10;
+            particle.style.animation = `float ${duration}s ease-in-out infinite`;
+
+            particlesContainer.appendChild(particle);
+
+            animateParticle(particle);
+        }
+    }
+
+    function animateParticle(particle) {
+        function move() {
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+
+            particle.style.left = `${x}%`;
+            particle.style.top = `${y}%`;
+
+            const duration = Math.random() * 20 + 10;
+            particle.style.transition = `left ${duration}s ease-in-out, top ${duration}s ease-in-out`;
+
+            setTimeout(move, duration * 1000);
+        }
+
+        move();
+    }
+
+    createParticles();
+
+    const cursor = document.getElementById('custom-cursor');
+
+    document.addEventListener('mousemove', function(e) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    document.addEventListener('mousedown', function() {
+        cursor.classList.add('active');
+    });
+
+    document.addEventListener('mouseup', function() {
+        cursor.classList.remove('active');
+    });
+</script>
 </body>
 </html>
