@@ -8,23 +8,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.0/dist/vanilla-tilt.min.js"></script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+
         .magic-title {
-            background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            background: linear-gradient(90deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+            animation: gradient-shift 8s ease infinite;
         }
-        .social-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .social-link:hover, .portfolio-button:hover, .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #preloader {
@@ -40,7 +66,7 @@
             align-items: center;
             opacity: 1;
             visibility: visible;
-            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            transition: opacity 0.7s ease-out, visibility 0.7s ease-out;
         }
 
         #preloader.hidden {
@@ -57,8 +83,8 @@
         .loader {
             display: inline-block;
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
         }
 
         .circle {
@@ -69,15 +95,15 @@
         }
 
         .circle-1 {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-top-color: #3498db;
             animation-duration: 2s;
         }
 
         .circle-2 {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             top: 10px;
             left: 10px;
             border-right-color: #e74c3c;
@@ -86,8 +112,8 @@
         }
 
         .circle-3 {
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             top: 20px;
             left: 20px;
             border-bottom-color: #2ecc71;
@@ -96,80 +122,725 @@
 
         .loading-text {
             margin-top: 20px;
-            font-size: 16px;
+            font-size: 20px;
             color: #fff;
-            letter-spacing: 1px;
-            opacity: 0;
-            animation: fadeIn 1.5s ease-in-out infinite alternate;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            animation: pulse 1.5s ease-in-out infinite alternate;
         }
 
         @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0.2;
-            }
-            100% {
-                opacity: 1;
-            }
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1.02); }
         }
 
         .portfolio-image {
             object-fit: cover;
             width: 100%;
-            height: calc(100% - 40px);
+            height: 100%;
+            border-radius: 0.5rem 0.5rem 0 0;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-item:hover .portfolio-image {
+            transform: scale(1.05);
         }
 
         .logo-icon {
             display: inline-block;
             vertical-align: middle;
-            margin-left: 8px;
-            width: 32px;
-            height: 32px;
+            margin-left: 10px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             object-fit: cover;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
         }
 
         .portfolio-item {
-            background-color: #e5e7eb;
-            height: 256px;
-            border-radius: 0.5rem;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 300ms ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.5rem;
+            padding-bottom: 0.5rem;
+            position: relative;
         }
 
         .portfolio-item:hover {
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
         }
 
         .portfolio-button {
-            display: inline-block;
-            width: calc(100% - 1rem);
+            display: block;
+            width: calc(100% - 1.5rem);
             text-align: center;
-            margin-top: 0.5rem;
-            background-color: #a020f0;
+            margin: 0.5rem auto 0 auto;
+            background: linear-gradient(to right, #a020f0, #9333ea);
             color: white;
             font-weight: bold;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            transition: background-color 0.3s ease;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
-        .portfolio-button:hover {
-            background-color: #8a2be2;
+        .portfolio-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #9333ea, #a020f0);
+            transition: all 0.4s ease-in-out;
+            z-index: -1;
+        }
+
+        .portfolio-button:hover:before {
+            left: 0;
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #a020f0, #8a2be2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-delay-1 { transition-delay: 0.1s; }
+        .animate-delay-2 { transition-delay: 0.2s; }
+        .animate-delay-3 { transition-delay: 0.3s; }
+        .animate-delay-4 { transition-delay: 0.4s; }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 0.9rem;
+            margin-bottom: 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: #f8fafc;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: #a020f0;
+            box-shadow: 0 0 0 2px rgba(160, 32, 240, 0.2);
+        }
+
+        .contact-form button {
+            background: linear-gradient(to right, #a020f0, #8a2be2);
+            color: white;
+            font-weight: bold;
+            padding: 0.9rem 2.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .contact-form button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #8a2be2, #a020f0);
+            transition: all 0.4s ease-in-out;
+            z-index: -1;
+        }
+
+        .contact-form button:hover:before {
+            left: 0;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .service-card:hover:before {
+            height: 100%;
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 28px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: rotateY(180deg);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 0;
+            margin: 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: white;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .testimonial-swiper {
+            width: 100%;
+            padding-bottom: 60px;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid #a020f0;
+        }
+
+        .swiper-pagination-bullet-active {
+            background-color: #a020f0 !important;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #a020f0;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid #a020f0;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .timeline-left {
+            left: 0;
+        }
+
+        .timeline-right {
+            left: 50%;
+        }
+
+        .timeline-left::after {
+            right: -10px;
+        }
+
+        .timeline-right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-content:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .dark-mode {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background: linear-gradient(135deg, #a020f0, #8a2be2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .dark-mode:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark .bg-gray-100 {
+            background-color: #121212;
+        }
+
+        body.dark .bg-white {
+            background-color: #1f1f1f;
+            color: #e0e0e0;
+        }
+
+        body.dark .text-gray-600,
+        body.dark .text-gray-700,
+        body.dark .text-gray-800 {
+            color: #b0b0b0;
+        }
+
+        body.dark .border-gray-200 {
+            border-color: #333;
+        }
+
+        body.dark .service-card,
+        body.dark .testimonial-card,
+        body.dark .timeline-content,
+        body.dark .contact-form input,
+        body.dark .contact-form textarea {
+            background-color: #1f1f1f;
+            color: #e0e0e0;
+        }
+
+        body.dark .contact-form input,
+        body.dark .contact-form textarea {
+            border-color: #333;
+            background-color: #2d2d2d;
+        }
+
+        .skill-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 20px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border-radius: 1rem;
+            position: relative;
+            transition: width 1.5s ease-in-out;
+        }
+
+        .skill-progress:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
+            background-size: 1rem 1rem;
+            animation: skill-animate 1s linear infinite;
+        }
+
+        @keyframes skill-animate {
+            0% { background-position: 0 0; }
+            100% { background-position: 1rem 0; }
+        }
+
+        .neon-box {
+            position: relative;
+        }
+
+        .neon-box:before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            bottom: -4px;
+            left: -4px;
+            background: linear-gradient(45deg, #a020f0, #8a2be2, #9333ea, #a020f0);
+            background-size: 400% 400%;
+            border-radius: 0.75rem;
+            z-index: -1;
+            animation: neon-animate 3s ease infinite;
+            filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .neon-box:hover:before {
+            opacity: 1;
+        }
+
+        @keyframes neon-animate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hover-card {
+            transition: all 0.3s ease;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .counter-item {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .counter-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .counter-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #a020f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .counter-label {
+            font-size: 1.25rem;
+            color: #4a5568;
+        }
+
+        .error-page {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 1rem 1.5rem;
+            background-color: #f8fafc;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background-color: white;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1rem 1.5rem;
+            max-height: 500px;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        .tilt-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .typewriter h2 {
+            overflow: hidden;
+            border-right: 3px solid #a020f0;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #a020f0 }
+        }
+
+        .side-nav {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .side-nav.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #a020f0;
+            margin: 10px 0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .side-nav-dot:before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: white;
+            top: 2px;
+            left: 2px;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .side-nav-dot:hover:before,
+        .side-nav-dot.active:before {
+            transform: scale(1);
+        }
+
+        .side-nav-dot:after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 20px;
+            top: -5px;
+            background: #a020f0;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .side-nav-dot:hover:after {
+            opacity: 1;
+            visibility: visible;
+            right: 30px;
         }
     </style>
 </head>
@@ -185,124 +856,941 @@
         </div>
     </div>
 
-    <header class="gradient-bg text-white shadow-md sticky top-0 z-10">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-3xl font-bold flex items-center">
+    <div class="side-nav">
+        <div class="side-nav-dot" data-tooltip="Главная" data-section="hero"></div>
+        <div class="side-nav-dot" data-tooltip="Обо мне" data-section="about"></div>
+        <div class="side-nav-dot" data-tooltip="Услуги" data-section="services"></div>
+        <div class="side-nav-dot" data-tooltip="Навыки" data-section="skills"></div>
+        <div class="side-nav-dot" data-tooltip="Портфолио" data-section="portfolio"></div>
+        <div class="side-nav-dot" data-tooltip="Отзывы" data-section="testimonials"></div>
+        <div class="side-nav-dot" data-tooltip="Контакты" data-section="contact"></div>
+    </div>
+
+    <header class="gradient-bg text-white shadow-md sticky top-0 z-20">
+        <nav class="container mx-auto px-6 py-3 flex flex-col sm:flex-row justify-between items-center">
+            <h1 class="text-3xl font-bold mb-4 sm:mb-0 flex items-center">
                 <a href="#" class="hover:text-gray-200 transition duration-300">LogoPulp</a>
-                <img src="https://i.imgur.com/jq47Okf.png" alt="[Иконка LogoPulp]" class="logo-icon">
+                <img src="https://i.imgur.com/jq47Okf.png" alt="Логотип" class="logo-icon ml-2">
             </h1>
+            <ul class="flex space-x-4">
+                <li><a href="#hero" class="nav-link hover:text-gray-200 transition duration-300 smooth-scroll">Главная</a></li>
+                <li><a href="#about" class="nav-link hover:text-gray-200 transition duration-300 smooth-scroll">Обо мне</a></li>
+                <li><a href="#services" class="nav-link hover:text-gray-200 transition duration-300 smooth-scroll">Услуги</a></li>
+                <li><a href="#skills" class="nav-link hover:text-gray-200 transition duration-300 smooth-scroll">Навыки</a></li>
+                <li><a href="#portfolio" class="nav-link hover:text-gray-200 transition duration-300 smooth-scroll">Портфолио</a></li>
+                <li><a href="#contact" class="nav-link hover:text-gray-200 transition duration-300 smooth-scroll">Контакты</a></li>
+            </ul>
         </nav>
     </header>
 
+    <section id="hero" class="gradient-bg text-white relative min-h-screen flex items-center">
+        <div id="particles-js" class="absolute inset-0"></div>
+        <div class="container mx-auto px-6 py-12 z-10">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 animate-on-scroll">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight">Создаю <span class="magic-title">волшебный дизайн</span> для вашего бренда</h1>
+                    <p class="text-xl mb-8">Уникальные логотипы, фирменный стиль и креативные решения, которые запомнятся вашей аудитории</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#portfolio" class="cta-button bg-white text-purple-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition duration-300 inline-block shadow-lg hover:shadow-xl smooth-scroll">Мои работы</a>
+                        <a href="#contact" class="cta-button bg-transparent hover:bg-white hover:text-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block border-2 border-white shadow-lg hover:shadow-xl smooth-scroll">Связаться</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 animate-on-scroll animate-delay-2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-3xl transform rotate-6 scale-105 opacity-30 blur-xl"></div>
+                        <img src="https://i.imgur.com/qtiRnUc.jpeg" alt="Иллюстрация дизайна" class="rounded-3xl shadow-2xl transform hover:scale-105 transition duration-500 tilt-card">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <svg class="absolute bottom-0 left-0 w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#f3f4f6" fill-opacity="1" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,234.7C960,235,1056,181,1152,170.7C1248,160,1344,192,1392,208L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </section>
+
     <main class="container mx-auto px-6 py-12">
-        <section id="about" class="text-center mb-16">
-            <h2 class="text-5xl font-bold mb-4 magic-title">Создаю волшебный дизайн для вашего бренда</h2>
-            <p class="text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
-                Привет! Я Антон Сосновский, автор портфолио LogoPulp.
-                Я создаю уникальные логотипы и фирменный стиль не только для бизнеса, но и для личных проектов. Хотите выделить свой бренд или просто воплотить творческую идею? Я помогу сделать это стильно и запоминающеся! 🚀
-            </p>
-            <a href="#contact" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block shadow-lg hover:shadow-xl">Связаться со мной</a>
-        </section>
+        <section id="about" class="mb-20 animate-on-scroll">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-3xl transform -rotate-3 scale-105 opacity-30 blur-xl"></div>
+                        <img src="https://i.imgur.com/ipDGAHa.jpeg" alt="Фото Антона" class="rounded-3xl shadow-2xl object-cover w-full tilt-card">
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="typewriter mb-4">
+                        <h2 class="text-3xl font-bold mb-2 text-purple-700">Привет, я Антон Сосновский</h2>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-700">Дизайнер</h3>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Я автор портфолио LogoPulp и специалист с более чем 4-летним опытом в графическом дизайне. Моя страсть — создавать визуальные истории, которые выделяют бренды из толпы и привлекают внимание.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-8">
+                        Каждый проект для меня — это возможность создать что-то уникальное и запоминающееся. Я верю, что хороший дизайн сочетает в себе эстетику и функциональность, рассказывая историю бренда визуальным языком.
+                    </p>
 
-        <section id="services" class="mb-16 bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-3xl font-bold text-center mb-8 text-gray-700">Мои Услуги</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition duration-300">
-                    <h3 class="text-xl font-bold mb-2 text-purple-700">Дизайн Логотипов</h3>
-                    <p class="text-gray-600">Создание запоминающихся и уникальных логотипов.</p>
-                </div>
-                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition duration-300">
-                    <h3 class="text-xl font-bold mb-2 text-purple-700">Фирменный Стиль</h3>
-                    <p class="text-gray-600">Разработка полного пакета айдентики для вашего бренда.</p>
-                </div>
-                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition duration-300">
-                    <h3 class="text-xl font-bold mb-2 text-purple-700">Веб-дизайн</h3>
-                    <p class="text-gray-600">Проектирование стильных и удобных интерфейсов.</p>
-                </div>
-                <div class="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition duration-300">
-                    <h3 class="text-xl font-bold mb-2 text-purple-700">Арты и Баннеры</h3>
-                    <p class="text-gray-600">Создание уникальных артов и баннеров для соцсетей и рекламы.</p>
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-purple-600 mr-2"></i>
+                            <span>Более 20 проектов</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-purple-600 mr-2"></i>
+                            <span>4+ лет опыта</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-purple-600 mr-2"></i>
+                            <span>Креативный подход</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-purple-600 mr-2"></i>
+                            <span>Индивидуальный подход</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="cta-button bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block shadow-lg hover:shadow-xl smooth-scroll">Связаться со мной</a>
+                        <a href="portfolio.pdf" class="cta-button bg-transparent hover:bg-purple-600 hover:text-white text-purple-600 font-bold py-3 px-8 rounded-full transition duration-300 inline-block border-2 border-purple-600 shadow-lg hover:shadow-xl" download>Скачать резюме</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="portfolio" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8 text-gray-700">Портфолио</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="portfolio-item">
-                    <img
-                        src="https://i.imgur.com/kEL2XqB.gif"
-                        alt="[GIF проекта TS - Баннеры и Логотипы]"
-                        class="portfolio-image"
-                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';"
-                    >
-                    <a href="ts_istoria.html" class="portfolio-button">
-                        Работы для проекта TS
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <img
-                        src="https://i.imgur.com/2CaSX8H.png"
-                        alt="[Изображение проекта 2 - Арты]"
-                        class="portfolio-image"
-                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';"
-                    >
-                    <a href="logopulp_art.html" class="portfolio-button">
-                        Арты
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <img
-                        src="https://i.imgur.com/qtiRnUc.jpeg"
-                        alt="[Логотипы]"
-                        class="portfolio-image"
-                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';"
-                    >
-                    <a href="logopulp_logo.html" class="portfolio-button">
-                        Логотипы
-                    </a>
-                </div>
-            </div>
-            <p class="text-center mt-6 text-gray-600">Скоро здесь появятся мои лучшие работы!</p>
-        </section>
-
-        <section id="contact" class="bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-3xl font-bold text-center mb-8 text-gray-700">Свяжитесь со мной</h2>
-            <div class="text-center max-w-3xl mx-auto">
-                <p class="text-lg text-gray-600 mb-6">
-                    Готовы начать проект или есть вопросы? Свяжитесь со мной или следите за новостями LogoPulp в социальных сетях!
-                </p>
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold mb-3 text-gray-700">Антон Сосновский:</h3>
-                    <div class="flex justify-center space-x-4">
-                        <a href="https://vk.com/torgovetss" target="_blank" rel="noopener noreferrer" class="social-link bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-300 shadow-md">VK</a>
-                        <a href="https://t.me/torgasik" target="_blank" rel="noopener noreferrer" class="social-link bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 shadow-md">Telegram</a>
-                        <a href="https://www.instagram.com/torgovetsss/" target="_blank" rel="noopener noreferrer" class="social-link bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-md transition duration-300 shadow-md">Instagram</a>
+        <section id="skills" class="mb-20 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-16 text-gray-700">Мои навыки</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Adobe Photoshop</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 0%;" data-width="75%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Adobe Illustrator</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 0%;" data-width="65%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Figma</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 0%;" data-width="60%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Adobe After Effects</span>
+                            <span>40%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 0%;" data-width="40%"></div>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-xl font-semibold mb-3 text-gray-700">LogoPulp:</h3>
-                    <div class="flex justify-center space-x-4">
-                        <a href="https://vk.com/logopulp" target="_blank" rel="noopener noreferrer" class="social-link bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-300 shadow-md">VK</a>
-                        <a href="https://www.instagram.com/logopulp/" target="_blank" rel="noopener noreferrer" class="social-link bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-md transition duration-300 shadow-md">Instagram</a>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="counter-item hover-card">
+                            <div class="counter-value" data-count="10">1&nbsp;</div>
+                            <div class="counter-label">Проектов завершено</div>
+                        </div>
+                        <div class="counter-item hover-card">
+                            <div class="counter-value" data-count="21">1</div>
+                            <div class="counter-label">Довольных клиентов</div>
+                        </div>
+                        <div class="counter-item hover-card">
+                            <div class="counter-value" data-count="4">1&nbsp;</div>
+                            <div class="counter-label">Лет опыта</div>
+                        </div>
+                        <div class="counter-item hover-card">
+                            <div class="counter-value" data-count="2">1&nbsp;</div>
+                            <div class="counter-label">Награды получено</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="mb-20 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-16 text-gray-700">Мои услуги</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="service-card neon-box animate-on-scroll animate-delay-1">
+                    <div class="service-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-purple-700">Дизайн логотипов</h3>
+                    <p class="text-gray-600 text-center">Создание уникальных и запоминающихся логотипов, которые отражают ценности и миссию вашего бренда.</p>
+                    <a href="#contact" class="mt-6 text-purple-600 hover:text-purple-800 font-medium inline-flex items-center smooth-scroll">
+                        Узнать больше
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="service-card neon-box animate-on-scroll animate-delay-2">
+                    <div class="service-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-purple-700">Фирменный стиль</h3>
+                    <p class="text-gray-600 text-center">Разработка полного пакета айдентики, включая логотип, цветовую палитру, типографику и фирменные элементы.</p>
+                    <a href="#contact" class="mt-6 text-purple-600 hover:text-purple-800 font-medium inline-flex items-center smooth-scroll">
+                        Узнать больше
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="service-card neon-box animate-on-scroll animate-delay-3">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-purple-700">Веб-дизайн</h3>
+                    <p class="text-gray-600 text-center">Проектирование интуитивно понятных и визуально привлекательных интерфейсов для вашего сайта или приложения.</p>
+                    <a href="#contact" class="mt-6 text-purple-600 hover:text-purple-800 font-medium inline-flex items-center smooth-scroll">
+                        Узнать больше
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="service-card neon-box animate-on-scroll animate-delay-1">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-purple-700">Дизайн баннеров</h3>
+                    <p class="text-gray-600 text-center">Создание эффективных и привлекательных баннеров для рекламы, соцсетей и веб-сайтов.</p>
+                    <a href="#contact" class="mt-6 text-purple-600 hover:text-purple-800 font-medium inline-flex items-center smooth-scroll">
+                        Узнать больше
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="service-card neon-box animate-on-scroll animate-delay-2">
+                    <div class="service-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-purple-700">Арт и иллюстрации</h3>
+                    <p class="text-gray-600 text-center">Разработка уникальных иллюстраций, стилизованных артов и креативных визуальных решений.</p>
+                    <a href="#contact" class="mt-6 text-purple-600 hover:text-purple-800 font-medium inline-flex items-center smooth-scroll">
+                        Узнать больше
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="service-card neon-box animate-on-scroll animate-delay-3">
+                    <div class="service-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-purple-700">Печатная продукция</h3>
+                    <p class="text-gray-600 text-center">Дизайн визиток, брошюр, каталогов, плакатов и другой полиграфической продукции.</p>
+                    <a href="#contact" class="mt-6 text-purple-600 hover:text-purple-800 font-medium inline-flex items-center smooth-scroll">
+                        Узнать больше
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="mb-20 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-16 text-gray-700">Мой подход к работе</h2>
+            <div class="timeline">
+                <div class="timeline-item timeline-left animate-on-scroll">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2 text-purple-700">01. Обсуждение</h3>
+                        <p class="text-gray-600">Изучение ваших целей, аудитории и пожеланий для полного понимания проекта.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right animate-on-scroll animate-delay-1">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2 text-purple-700">02. Исследование</h3>
+                        <p class="text-gray-600">Анализ конкурентов, трендов и целевой аудитории для создания уникального решения.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-left animate-on-scroll animate-delay-2">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2 text-purple-700">03. Концепция</h3>
+                        <p class="text-gray-600">Разработка нескольких концепций дизайна на основе собранной информации.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right animate-on-scroll animate-delay-3">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2 text-purple-700">04. Доработка</h3>
+                        <p class="text-gray-600">Внесение корректировок и улучшений на основе вашей обратной связи.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-left animate-on-scroll animate-delay-4">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-2 text-purple-700">05. Финализация</h3>
+                        <p class="text-gray-600">Доведение выбранной концепции до совершенства и подготовка финальных файлов.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="mb-20 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-16 text-gray-700">Избранные работы</h2>
+            <div class="mb-8">
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button class="portfolio-filter active px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition duration-300" data-filter="all">Все работы</button>
+                    <button class="portfolio-filter px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-purple-600 hover:text-white transition duration-300" data-filter="logos">Логотипы</button>
+                    <button class="portfolio-filter px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-purple-600 hover:text-white transition duration-300" data-filter="banners">Баннеры</button>
+                    <button class="portfolio-filter px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-purple-600 hover:text-white transition duration-300" data-filter="arts">Арты</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 portfolio-grid">
+                <div class="portfolio-item" data-category="banners">
+                    <div class="relative h-full overflow-hidden group">
+                        <img src="https://i.imgur.com/kEL2XqB.gif" alt="Баннеры и Логотипы TS" class="portfolio-image">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900 via-purple-800/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-xl font-bold mb-2">Проект TS</h3>
+                            <p class="text-white text-sm mb-4">Баннеры и логотипы для игрового проекта</p>
+                        </div>
+                    </div>
+                    <a href="ts_istoria.html" class="portfolio-button">
+                        Посмотреть подробнее
+                    </a>
+                </div>
+                <div class="portfolio-item" data-category="arts">
+                    <div class="relative h-full overflow-hidden group">
+                        <img src="https://i.imgur.com/2CaSX8H.png" alt="Арты LogoPulp" class="portfolio-image">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900 via-purple-800/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-xl font-bold mb-2">Арты</h3>
+                            <p class="text-white text-sm mb-4">Авторские иллюстрации и графика</p>
+                        </div>
+                    </div>
+                    <a href="logopulp_art.html" class="portfolio-button">
+                        Посмотреть подробнее
+                    </a>
+                </div>
+                <div class="portfolio-item" data-category="logos">
+                    <div class="relative h-full overflow-hidden group">
+                        <img src="https://i.imgur.com/qtiRnUc.jpeg" alt="Логотипы" class="portfolio-image">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900 via-purple-800/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-xl font-bold mb-2">Логотипы</h3>
+                            <p class="text-white text-sm mb-4">Разработка уникальных логотипов</p>
+                        </div>
+                    </div>
+                    <a href="logopulp_logo.html" class="portfolio-button">
+                        Посмотреть подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#" class="load-more bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-block shadow-lg hover:shadow-xl">
+                    Загрузить больше
+                    <i class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                </a>
+            </div>
+        </section>
+
+        <section id="faq" class="mb-20 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-16 text-gray-700">Часто задаваемые вопросы</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                      <p> <span>Какие форматы файлов я получу после завершения работы?</span></p>
+                        <p> <i class="fas fa-chevron-down"></i> </p>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-600">После завершения работы вы получите все необходимые форматы файлов, растровые (JPG, PNG) с прозрачным фоном, а также файлы для печати (PDF) высокого разрешения.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Сколько времени занимает разработка логотипа?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-600">Стандартное время разработки логотипа составляет 3-5 рабочих дней. Этот период включает в себя исследование, создание концепций, презентацию и внесение корректировок. Для более сложных проектов или полного фирменного стиля может потребоваться больше времени.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Сколько концепций дизайна вы предлагаете?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-600">В стандартный пакет входит разработка 2-4 концепций дизайна на выбор. После выбора одной концепции я вношу необходимые корректировки до полного утверждения финального варианта.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Работаете ли вы с клиентами из других городов и стран?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-600">Да, я работаю с клиентами по всему миру. Коммуникация происходит онлайн через удобные для вас каналы: email, мессенджеры или видеозвонки. Географических ограничений нет.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Что нужно для начала работы над проектом?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-600">Для начала работы необходимо заполнить бриф с основной информацией о вашем бренде, целевой аудитории и пожеланиях. После этого мы обсудим детали проекта, сроки и условия сотрудничества, а затем заключим договор и внесем предоплату.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="bg-white p-8 rounded-lg shadow-md animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-700">Свяжитесь со мной</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-semibold mb-6 text-gray-700">Форма обратной связи</h3>
+                    <form class="contact-form" action="mailto:officialtorgovets@gmail.com" method="post" enctype="text/plain">
+                        <input type="text" name="name" placeholder="Ваше имя" required>
+                        <input type="email" name="email" placeholder="Ваш Email" required>
+                        <input type="text" name="subject" placeholder="Тема сообщения" required>
+                        <textarea name="message" placeholder="Ваше сообщение" rows="5" required></textarea>
+                        <button type="submit" class="cta-button w-full">Отправить сообщение</button>
+                    </form>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-6 text-gray-700">Контактная информация</h3>
+                    <div class="flex items-start mb-6">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-envelope text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Email</h4>
+                            <p class="text-gray-600">officialtorgovets@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start mb-6">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-phone text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Телефон</h4>
+                            <p class="text-gray-600">+375 (33) 325-90-79</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start mb-8">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-map-marker-alt text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Локация</h4>
+                            <p class="text-gray-600">Белорусь</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-6 text-gray-700">Социальные сети</h3>
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-gray-700">Антон Сосновский:</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://vk.com/torgovetss" target="_blank" rel="noopener noreferrer" class="social-link bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-300 shadow-md"><i class="fab fa-vk mr-2"></i>VK</a>
+                            <a href="https://t.me/torgasik" target="_blank" rel="noopener noreferrer" class="social-link bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 shadow-md"><i class="fab fa-telegram-plane mr-2"></i>Telegram</a>
+                            <a href="https://www.instagram.com/torgovetsss/" target="_blank" rel="noopener noreferrer" class="social-link bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-md transition duration-300 shadow-md"><i class="fab fa-instagram mr-2"></i>Instagram</a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-3 text-gray-700">LogoPulp:</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://vk.com/logopulp" target="_blank" rel="noopener noreferrer" class="social-link bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-300 shadow-md"><i class="fab fa-vk mr-2"></i>VK</a>
+                            <a href="https://www.instagram.com/logopulp/" target="_blank" rel="noopener noreferrer" class="social-link bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-md transition duration-300 shadow-md"><i class="fab fa-instagram mr-2"></i>Instagram</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="gradient-bg text-white mt-16 py-6">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 LogoPulp. Все права защищены.</p>
-            <p>Автор портфолио: Антон Сосновский</p>
+    <div class="modal" id="projectModal">
+        <div class="modal-close">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="modal-content bg-white rounded-xl p-8">
+            <div id="modalContent">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="dark-mode" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <button id="back-to-top" aria-label="Наверх">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <footer class="gradient-bg text-white mt-16 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        LogoPulp
+                        <img src="https://i.imgur.com/jq47Okf.png" alt="Логотип" class="w-8 h-8 ml-2">
+                    </h3>
+                    <p class="mb-4">Создаю волшебный дизайн для вашего бренда. Логотипы, фирменный стиль, веб-дизайн и многое другое.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://vk.com/logopulp" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300">
+                            <i class="fab fa-vk text-xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/logopulp/" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="https://t.me/torgasik" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300">
+                            <i class="fab fa-telegram-plane text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Быстрые ссылки</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-white hover:text-gray-300 smooth-scroll">Обо мне</a></li>
+                        <li><a href="#services" class="text-white hover:text-gray-300 smooth-scroll">Услуги</a></li>
+                        <li><a href="#portfolio" class="text-white hover:text-gray-300 smooth-scroll">Портфолио</a></li>
+                        <li><a href="#faq" class="text-white hover:text-gray-300 smooth-scroll">FAQ</a></li>
+                        <li><a href="#contact" class="text-white hover:text-gray-300 smooth-scroll">Контакты</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-6 text-center">
+                <p>&copy; 2025 LogoPulp. Все права защищены.</p>
+                <p>Автор портфолио: Антон Сосновский</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        window.onload = function() {
+        window.addEventListener('load', function() {
             const preloader = document.getElementById('preloader');
             preloader.classList.add('hidden');
+
+            setTimeout(() => {
+                initGSAP();
+                initParticles();
+                initSwiper();
+                initSkillBars();
+                initCounters();
+                initTilt();
+                initFAQ();
+                initPortfolioFilters();
+                showFirstSectionElements();
+            }, 300);
+        });
+
+        function initParticles() {
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": {
+                            "value": 80,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#ffffff"
+                        },
+                        "shape": {
+                            "type": "circle"
+                        },
+                        "opacity": {
+                            "value": 0.5,
+                            "random": false
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 150,
+                            "color": "#ffffff",
+                            "opacity": 0.4,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 2,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "grab"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 140,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            }
         }
+
+        function initGSAP() {
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.from(".magic-title", {
+                    duration: 1.5,
+                    opacity: 0,
+                    y: 50,
+                    ease: "power3.out"
+                });
+
+                gsap.from("nav ul li", {
+                    duration: 1,
+                    opacity: 0,
+                    y: -20,
+                    stagger: 0.1,
+                    ease: "power3.out"
+                });
+
+                const sections = document.querySelectorAll('section[id]');
+                const sideNavDots = document.querySelectorAll('.side-nav-dot');
+
+                sections.forEach((section, index) => {
+                    ScrollTrigger.create({
+                        trigger: section,
+                        start: "top center",
+                        end: "bottom center",
+                        onEnter: () => updateActiveDot(section.id),
+                        onEnterBack: () => updateActiveDot(section.id)
+                    });
+                });
+
+                ScrollTrigger.create({
+                    trigger: "body",
+                    start: "top -100",
+                    onEnter: () => document.querySelector('.side-nav').classList.add('show'),
+                    onLeaveBack: () => document.querySelector('.side-nav').classList.remove('show')
+                });
+            }
+        }
+
+        function updateActiveDot(sectionId) {
+            document.querySelectorAll('.side-nav-dot').forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-section') === sectionId) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        function initSwiper() {
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('.testimonial-swiper', {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 1,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        },
+                    }
+                });
+            }
+        }
+
+        function initSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+
+            if (typeof ScrollTrigger !== 'undefined') {
+                skillBars.forEach(bar => {
+                    const targetWidth = bar.getAttribute('data-width');
+
+                    ScrollTrigger.create({
+                        trigger: bar,
+                        start: "top 80%",
+                        onEnter: () => {
+                            bar.style.width = targetWidth;
+                        }
+                    });
+                });
+            }
+        }
+
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter-value');
+
+            if (typeof ScrollTrigger !== 'undefined') {
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-count'));
+
+                    ScrollTrigger.create({
+                        trigger: counter,
+                        start: "top 80%",
+                        onEnter: () => {
+                            let count = 0;
+                            const updateCounter = () => {
+                                const increment = target / 50;
+                                if (count < target) {
+                                    count += increment;
+                                    counter.textContent = Math.ceil(count);
+                                    setTimeout(updateCounter, 20);
+                                } else {
+                                    counter.textContent = target;
+                                }
+                            };
+                            updateCounter();
+                        },
+                        once: true
+                    });
+                });
+            }
+        }
+
+        function initTilt() {
+            if (typeof VanillaTilt !== 'undefined') {
+                VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+                    max: 10,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.3,
+                    scale: 1.05,
+                });
+            }
+        }
+
+        function initFAQ() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const faqItem = question.parentElement;
+                    faqItem.classList.toggle('active');
+                });
+            });
+        }
+
+        function initPortfolioFilters() {
+            const filterButtons = document.querySelectorAll('.portfolio-filter');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active', 'bg-purple-600', 'text-white'));
+                    filterButtons.forEach(btn => btn.classList.add('bg-gray-200', 'text-gray-700'));
+
+                    button.classList.add('active', 'bg-purple-600', 'text-white');
+                    button.classList.remove('bg-gray-200', 'text-gray-700');
+
+                    const filter = button.getAttribute('data-filter');
+
+                    portfolioItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            gsap.to(item, { duration: 0.5, opacity: 1, scale: 1, display: 'flex' });
+                        } else {
+                            gsap.to(item, { duration: 0.5, opacity: 0, scale: 0.8, display: 'none' });
+                        }
+                    });
+                });
+            });
+        }
+
+        function showFirstSectionElements() {
+            gsap.to("#hero .animate-on-scroll", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+        }
+
+        document.querySelectorAll('.smooth-scroll').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        document.querySelectorAll('.side-nav-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                const targetElement = document.getElementById(sectionId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        elementsToAnimate.forEach(element => {
+            observer.observe(element);
+        });
+
+        const projectButtons = document.querySelectorAll('.view-project');
+        const modal = document.getElementById('projectModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalClose = document.querySelector('.modal-close');
+
+        projectButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectType = button.getAttribute('data-project');
+                loadProjectContent(projectType);
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        function loadProjectContent(projectType) {
+            let content = '';
+
+            switch(projectType) {
+                case 'branding':
+                    content = `
+                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Фирменный стиль</h2>
+                        <p class="mb-4 text-gray-600">Разработка полного фирменного стиля для компаний и брендов.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <img src="https://i.imgur.com/qtiRnUc.jpeg" alt="Пример фирменного стиля" class="rounded-lg">
+                            <img src="https://i.imgur.com/qtiRnUc.jpeg" alt="Пример фирменного стиля" class="rounded-lg">
+                        </div>
+                        <p class="text-gray-600">Проект включает разработку логотипа, цветовой палитры, типографики, фирменных узоров и шаблонов для различных носителей.</p>
+                    `;
+                    break;
+                case 'web':
+                    content = `
+                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Веб-дизайн</h2>
+                        <p class="mb-4 text-gray-600">Создание современных и удобных интерфейсов для сайтов и приложений.</p>
+                        <div class="grid grid-cols-1 gap-4 mb-4">
+                            <img src="https://i.imgur.com/kEL2XqB.gif" alt="Пример веб-дизайна" class="rounded-lg">
+                        </div>
+                        <p class="text-gray-600">Разработка интерфейсов с фокусом на пользовательский опыт, адаптивный дизайн и современные тренды.</p>
+                    `;
+                    break;
+                case 'social':
+                    content = `
+                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Дизайн для социальных сетей</h2>
+                        <p class="mb-4 text-gray-600">Оформление профилей и создание контента для социальных сетей.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <img src="https://i.imgur.com/2CaSX8H.png" alt="Пример дизайна для соцсетей" class="rounded-lg">
+                            <img src="https://i.imgur.com/2CaSX8H.png" alt="Пример дизайна для соцсетей" class="rounded-lg">
+                        </div>
+                        <p class="text-gray-600">Разработка шаблонов для постов, Stories, обложек и аватаров для различных социальных платформ.</p>
+                    `;
+                    break;
+                default:
+                    content = '<p>Информация о проекте недоступна.</p>';
+            }
+
+            modalContent.innerHTML = content;
+        }
+
+        const loadMoreButton = document.querySelector('.load-more');
+
+        loadMoreButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const spinner = loadMoreButton.querySelector('.fa-spinner');
+            spinner.classList.remove('hidden');
+            setTimeout(() => {
+                spinner.classList.add('hidden');
+                console.log('Загрузка дополнительных проектов (имитация)...');
+
+            }, 1500);
+        });
+
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+
+            const icon = darkModeToggle.querySelector('i');
+            if (document.body.classList.contains('dark')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
     </script>
 </body>
 </html>
